@@ -10,6 +10,14 @@
 		C9A743AA14D6ECDE003E2DBA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A743A914D6ECDE003E2DBA /* Foundation.framework */; };
 		C9A743AD14D6ECDE003E2DBA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743AC14D6ECDE003E2DBA /* main.m */; };
 		C9A743B114D6ECDE003E2DBA /* Statec.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9A743B014D6ECDE003E2DBA /* Statec.1 */; };
+		C9A743B814D6ECF2003E2DBA /* CoreParse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A743B714D6ECF2003E2DBA /* CoreParse.framework */; };
+		C9A743BA14D6ED04003E2DBA /* CoreParse.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C9A743B714D6ECF2003E2DBA /* CoreParse.framework */; };
+		C9A743BF14D6ED3A003E2DBA /* StatecParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743BE14D6ED3A003E2DBA /* StatecParser.m */; };
+		C9A743C814D6EE25003E2DBA /* StatecClass.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743C714D6EE25003E2DBA /* StatecClass.m */; };
+		C9A743CE14D6F178003E2DBA /* StatecMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743CD14D6F178003E2DBA /* StatecMethod.m */; };
+		C9A743D114D6F189003E2DBA /* StatecVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D014D6F189003E2DBA /* StatecVariable.m */; };
+		C9A743D414D6F210003E2DBA /* StatecProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D314D6F210003E2DBA /* StatecProperty.m */; };
+		C9A743D814D7326E003E2DBA /* StatecArgument.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D714D7326E003E2DBA /* StatecArgument.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,14 +31,39 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
+		C9A743B914D6ECF9003E2DBA /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				C9A743BA14D6ED04003E2DBA /* CoreParse.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		C9A743A514D6ECDE003E2DBA /* Statec */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Statec; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A743A914D6ECDE003E2DBA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C9A743AC14D6ECDE003E2DBA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		C9A743AF14D6ECDE003E2DBA /* Statec-Prefix.pch */ = {isa = PBXFileReference; path = "Statec-Prefix.pch"; sourceTree = "<group>"; };
+		C9A743AF14D6ECDE003E2DBA /* Statec-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Statec-Prefix.pch"; sourceTree = "<group>"; };
 		C9A743B014D6ECDE003E2DBA /* Statec.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Statec.1; sourceTree = "<group>"; };
+		C9A743B714D6ECF2003E2DBA /* CoreParse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CoreParse.framework; sourceTree = "<group>"; };
+		C9A743BD14D6ED3A003E2DBA /* StatecParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecParser.h; path = Parser/StatecParser.h; sourceTree = "<group>"; };
+		C9A743BE14D6ED3A003E2DBA /* StatecParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecParser.m; path = Parser/StatecParser.m; sourceTree = "<group>"; };
+		C9A743C614D6EE25003E2DBA /* StatecClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecClass.h; path = Builder/StatecClass.h; sourceTree = "<group>"; };
+		C9A743C714D6EE25003E2DBA /* StatecClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecClass.m; path = Builder/StatecClass.m; sourceTree = "<group>"; };
+		C9A743CC14D6F178003E2DBA /* StatecMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecMethod.h; path = Builder/StatecMethod.h; sourceTree = "<group>"; };
+		C9A743CD14D6F178003E2DBA /* StatecMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecMethod.m; path = Builder/StatecMethod.m; sourceTree = "<group>"; };
+		C9A743CF14D6F189003E2DBA /* StatecVariable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecVariable.h; path = Builder/StatecVariable.h; sourceTree = "<group>"; };
+		C9A743D014D6F189003E2DBA /* StatecVariable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecVariable.m; path = Builder/StatecVariable.m; sourceTree = "<group>"; };
+		C9A743D214D6F210003E2DBA /* StatecProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecProperty.h; path = Builder/StatecProperty.h; sourceTree = "<group>"; };
+		C9A743D314D6F210003E2DBA /* StatecProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecProperty.m; path = Builder/StatecProperty.m; sourceTree = "<group>"; };
+		C9A743D514D70BB0003E2DBA /* Statec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Statec.h; sourceTree = "<group>"; };
+		C9A743D614D7326E003E2DBA /* StatecArgument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecArgument.h; path = Builder/StatecArgument.h; sourceTree = "<group>"; };
+		C9A743D714D7326E003E2DBA /* StatecArgument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecArgument.m; path = Builder/StatecArgument.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +72,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A743AA14D6ECDE003E2DBA /* Foundation.framework in Frameworks */,
+				C9A743B814D6ECF2003E2DBA /* CoreParse.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +99,7 @@
 		C9A743A814D6ECDE003E2DBA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				C9A743B714D6ECF2003E2DBA /* CoreParse.framework */,
 				C9A743A914D6ECDE003E2DBA /* Foundation.framework */,
 			);
 			name = Frameworks;
@@ -73,9 +108,12 @@
 		C9A743AB14D6ECDE003E2DBA /* Statec */ = {
 			isa = PBXGroup;
 			children = (
+				C9A743BC14D6ED14003E2DBA /* Builder */,
+				C9A743BB14D6ED0C003E2DBA /* Parser */,
 				C9A743AC14D6ECDE003E2DBA /* main.m */,
 				C9A743B014D6ECDE003E2DBA /* Statec.1 */,
 				C9A743AE14D6ECDE003E2DBA /* Supporting Files */,
+				C9A743D514D70BB0003E2DBA /* Statec.h */,
 			);
 			path = Statec;
 			sourceTree = "<group>";
@@ -88,6 +126,32 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		C9A743BB14D6ED0C003E2DBA /* Parser */ = {
+			isa = PBXGroup;
+			children = (
+				C9A743BD14D6ED3A003E2DBA /* StatecParser.h */,
+				C9A743BE14D6ED3A003E2DBA /* StatecParser.m */,
+			);
+			name = Parser;
+			sourceTree = "<group>";
+		};
+		C9A743BC14D6ED14003E2DBA /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				C9A743C614D6EE25003E2DBA /* StatecClass.h */,
+				C9A743C714D6EE25003E2DBA /* StatecClass.m */,
+				C9A743CC14D6F178003E2DBA /* StatecMethod.h */,
+				C9A743CD14D6F178003E2DBA /* StatecMethod.m */,
+				C9A743CF14D6F189003E2DBA /* StatecVariable.h */,
+				C9A743D014D6F189003E2DBA /* StatecVariable.m */,
+				C9A743D214D6F210003E2DBA /* StatecProperty.h */,
+				C9A743D314D6F210003E2DBA /* StatecProperty.m */,
+				C9A743D614D7326E003E2DBA /* StatecArgument.h */,
+				C9A743D714D7326E003E2DBA /* StatecArgument.m */,
+			);
+			name = Builder;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -98,6 +162,7 @@
 				C9A743A114D6ECDE003E2DBA /* Sources */,
 				C9A743A214D6ECDE003E2DBA /* Frameworks */,
 				C9A743A314D6ECDE003E2DBA /* CopyFiles */,
+				C9A743B914D6ECF9003E2DBA /* Copy Frameworks */,
 			);
 			buildRules = (
 			);
@@ -139,6 +204,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C9A743AD14D6ECDE003E2DBA /* main.m in Sources */,
+				C9A743BF14D6ED3A003E2DBA /* StatecParser.m in Sources */,
+				C9A743C814D6EE25003E2DBA /* StatecClass.m in Sources */,
+				C9A743CE14D6F178003E2DBA /* StatecMethod.m in Sources */,
+				C9A743D114D6F189003E2DBA /* StatecVariable.m in Sources */,
+				C9A743D414D6F210003E2DBA /* StatecProperty.m in Sources */,
+				C9A743D814D7326E003E2DBA /* StatecArgument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -195,6 +266,10 @@
 		C9A743B514D6ECDE003E2DBA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Statec/Statec-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -204,6 +279,10 @@
 		C9A743B614D6ECDE003E2DBA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Statec/Statec-Prefix.pch";
 				PRODUCT_NAME = "$(TARGET_NAME)";
