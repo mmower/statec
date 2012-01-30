@@ -1,0 +1,236 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		C9A743AA14D6ECDE003E2DBA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A743A914D6ECDE003E2DBA /* Foundation.framework */; };
+		C9A743AD14D6ECDE003E2DBA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743AC14D6ECDE003E2DBA /* main.m */; };
+		C9A743B114D6ECDE003E2DBA /* Statec.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9A743B014D6ECDE003E2DBA /* Statec.1 */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		C9A743A314D6ECDE003E2DBA /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+				C9A743B114D6ECDE003E2DBA /* Statec.1 in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		C9A743A514D6ECDE003E2DBA /* Statec */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Statec; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9A743A914D6ECDE003E2DBA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C9A743AC14D6ECDE003E2DBA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C9A743AF14D6ECDE003E2DBA /* Statec-Prefix.pch */ = {isa = PBXFileReference; path = "Statec-Prefix.pch"; sourceTree = "<group>"; };
+		C9A743B014D6ECDE003E2DBA /* Statec.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Statec.1; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		C9A743A214D6ECDE003E2DBA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A743AA14D6ECDE003E2DBA /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		C9A7439A14D6ECDE003E2DBA = {
+			isa = PBXGroup;
+			children = (
+				C9A743AB14D6ECDE003E2DBA /* Statec */,
+				C9A743A814D6ECDE003E2DBA /* Frameworks */,
+				C9A743A614D6ECDE003E2DBA /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		C9A743A614D6ECDE003E2DBA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C9A743A514D6ECDE003E2DBA /* Statec */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		C9A743A814D6ECDE003E2DBA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9A743A914D6ECDE003E2DBA /* Foundation.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C9A743AB14D6ECDE003E2DBA /* Statec */ = {
+			isa = PBXGroup;
+			children = (
+				C9A743AC14D6ECDE003E2DBA /* main.m */,
+				C9A743B014D6ECDE003E2DBA /* Statec.1 */,
+				C9A743AE14D6ECDE003E2DBA /* Supporting Files */,
+			);
+			path = Statec;
+			sourceTree = "<group>";
+		};
+		C9A743AE14D6ECDE003E2DBA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9A743AF14D6ECDE003E2DBA /* Statec-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		C9A743A414D6ECDE003E2DBA /* Statec */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9A743B414D6ECDE003E2DBA /* Build configuration list for PBXNativeTarget "Statec" */;
+			buildPhases = (
+				C9A743A114D6ECDE003E2DBA /* Sources */,
+				C9A743A214D6ECDE003E2DBA /* Frameworks */,
+				C9A743A314D6ECDE003E2DBA /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Statec;
+			productName = Statec;
+			productReference = C9A743A514D6ECDE003E2DBA /* Statec */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		C9A7439C14D6ECDE003E2DBA /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0420;
+			};
+			buildConfigurationList = C9A7439F14D6ECDE003E2DBA /* Build configuration list for PBXProject "Statec" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = C9A7439A14D6ECDE003E2DBA;
+			productRefGroup = C9A743A614D6ECDE003E2DBA /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				C9A743A414D6ECDE003E2DBA /* Statec */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		C9A743A114D6ECDE003E2DBA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9A743AD14D6ECDE003E2DBA /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		C9A743B214D6ECDE003E2DBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		C9A743B314D6ECDE003E2DBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_PROTOTYPES = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		C9A743B514D6ECDE003E2DBA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Statec/Statec-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		C9A743B614D6ECDE003E2DBA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Statec/Statec-Prefix.pch";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C9A7439F14D6ECDE003E2DBA /* Build configuration list for PBXProject "Statec" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9A743B214D6ECDE003E2DBA /* Debug */,
+				C9A743B314D6ECDE003E2DBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9A743B414D6ECDE003E2DBA /* Build configuration list for PBXNativeTarget "Statec" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9A743B514D6ECDE003E2DBA /* Debug */,
+				C9A743B614D6ECDE003E2DBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = C9A7439C14D6ECDE003E2DBA /* Project object */;
+}
