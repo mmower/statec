@@ -12,9 +12,9 @@
 
 @interface StatecMachine : NSObject <CPParseResult>
 
-
 @property (strong) NSString *name;
 @property (strong) NSString *initialState;
-@property (strong) NSArray *states;
+@property (strong) NSDictionary *states;
+@property (strong) NSDictionary *events;
 
 @end

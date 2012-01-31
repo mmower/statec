@@ -22,6 +22,10 @@
                                                       type:@"NSUInteger"]];
   
   
+  for( NSString *event in [machine events] ) {
+    StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:NSSelectorFromString(event)];
+    [class addMethod:method];
+  }
   
   return class;
 }

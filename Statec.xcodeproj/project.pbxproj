@@ -25,6 +25,7 @@
 		C9A743EC14D76C22003E2DBA /* StatecExit.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743EB14D76C22003E2DBA /* StatecExit.m */; };
 		C9A743EF14D76C2F003E2DBA /* StatecEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743EE14D76C2E003E2DBA /* StatecEvent.m */; };
 		C9A743F314D774FC003E2DBA /* StatecCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743F214D774FC003E2DBA /* StatecCompiler.m */; };
+		C9A743F614D77827003E2DBA /* StatecTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743F514D77826003E2DBA /* StatecTransition.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -85,6 +86,8 @@
 		C9A743EE14D76C2E003E2DBA /* StatecEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatecEvent.m; sourceTree = "<group>"; };
 		C9A743F114D774FC003E2DBA /* StatecCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecCompiler.h; path = Compiler/StatecCompiler.h; sourceTree = "<group>"; };
 		C9A743F214D774FC003E2DBA /* StatecCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecCompiler.m; path = Compiler/StatecCompiler.m; sourceTree = "<group>"; };
+		C9A743F414D77826003E2DBA /* StatecTransition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecTransition.h; path = Parser/StatecTransition.h; sourceTree = "<group>"; };
+		C9A743F514D77826003E2DBA /* StatecTransition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecTransition.m; path = Parser/StatecTransition.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -165,6 +168,8 @@
 				C9A743EB14D76C22003E2DBA /* StatecExit.m */,
 				C9A743ED14D76C2E003E2DBA /* StatecEvent.h */,
 				C9A743EE14D76C2E003E2DBA /* StatecEvent.m */,
+				C9A743F414D77826003E2DBA /* StatecTransition.h */,
+				C9A743F514D77826003E2DBA /* StatecTransition.m */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -260,6 +265,7 @@
 				C9A743EC14D76C22003E2DBA /* StatecExit.m in Sources */,
 				C9A743EF14D76C2F003E2DBA /* StatecEvent.m in Sources */,
 				C9A743F314D774FC003E2DBA /* StatecCompiler.m in Sources */,
+				C9A743F614D77827003E2DBA /* StatecTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

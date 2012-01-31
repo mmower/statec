@@ -51,6 +51,11 @@
 }
 
 
+- (void)addMethod:(StatecMethod *)method {
+  [[self methods] addObject:method];
+}
+
+
 - (NSString *)headerFileName {
   return [NSString stringWithFormat:@"%@.h",[self name]];
 }

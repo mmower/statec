@@ -28,6 +28,7 @@ typedef enum {
 #import "StatecEnter.h"
 #import "StatecExit.h"
 #import "StatecEvent.h"
+#import "StatecTransition.h"
 
 #import "StatecCompiler.h"
 
