@@ -19,6 +19,7 @@ typedef enum {
 #import "StatecCompilationUnit.h"
 #import "StatecEnumeration.h"
 #import "StatecType.h"
+#import "StatecTypedef.h"
 #import "StatecClass.h"
 #import "StatecMethod.h"
 #import "StatecArgument.h"

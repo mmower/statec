@@ -27,8 +27,9 @@ int main (int argc, const char * argv[])
     StatecCompiler *compiler = [[StatecCompiler alloc] init];
     
     
-    StatecClass *class = [compiler compileClassFromMachineDefinition:source];
-    if( ![class writeClassFilesTo:@"/tmp/" error:&error] ) {
+    StatecCompilationUnit *unit = [compiler compileMachine:source];
+    
+    if( ![unit writeFilesTo:@"/tmp/" error:&error] ) {
       NSLog( @"Cannot write class files: %@", [error localizedDescription] );
     }
   }

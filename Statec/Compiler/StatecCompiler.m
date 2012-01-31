@@ -18,19 +18,28 @@
   
   StatecCompilationUnit *unit = [[StatecCompilationUnit alloc] initWithName:[machine name]];
   
+  StatecEnumeration *stateEnum = [[StatecEnumeration alloc] init];
+  for( NSString *stateName in [machine states] ) {
+    [stateEnum addElement:stateName];
+  };
   
+  StatecTypedef *stateType = [[StatecTypedef alloc] initWithName:[NSString stringWithFormat:@"%@State",[machine name]] type:stateEnum];
+  
+  [unit addType:stateType];
   
   StatecClass *class = [[StatecClass alloc] initWithName:[machine name]];
   
   [class addVariable:[[StatecVariable alloc] initWithScope:StatecInstanceScope 
                                                       name:@"_state"
-                                                      type:@"NSUInteger"]];
+                                                      type:[stateType name]]];
   
   
   for( NSString *event in [machine events] ) {
     StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:NSSelectorFromString(event)];
     [class addMethod:method];
   }
+  
+  [unit addClass:class];
   
   return unit;
 }

@@ -24,7 +24,7 @@
 }
 
 
-- (NSString *)definitionString {
+- (NSString *)statementString {
   NSMutableString *content = [NSMutableString string];
   
   if( [self name] ) {
@@ -39,7 +39,7 @@
   
   [content deleteCharactersInRange:NSMakeRange( [content length]-2, 2 )];
   
-  [content appendString:@"\n};\n"];
+  [content appendString:@"\n}"];
   
   return content;
 }

@@ -13,14 +13,20 @@
 @implementation StatecCompilationUnit
 
 @synthesize name = _name;
+@synthesize declarationImports = _declarationImports;
+@synthesize definitionImports = _definitionImports;
 @synthesize types = _types;
 @synthesize classes = _classes;
 
 
 - (id)initWithName:(NSString *)name {
-  self = [super init];
+  self = [self init];
   if( self ) {
     _name = name;
+    _declarationImports = [NSMutableArray arrayWithObject:@"<Foundation/Foundation.h>"];
+    _definitionImports = [NSMutableArray arrayWithObject:[NSString stringWithFormat:@"%@.h",name]];
+    _classes = [NSMutableArray array];
+    _types = [NSMutableArray array];
   }
   return self;
 }
@@ -28,6 +34,21 @@
 
 - (void)addClass:(StatecClass *)class {
   [_classes addObject:class];
+}
+
+
+- (void)addType:(StatecType *)type {
+  [_types addObject:type];
+}
+
+
+- (void)addDeclarationImport:(NSString *)import {
+  [[self declarationImports] addObject:import];
+}
+
+
+- (void)addDefinitionImport:(NSString *)import {
+  [[self definitionImports] addObject:import];
 }
 
 
@@ -41,8 +62,38 @@
 }
 
 
+- (NSString *)typeStatementString {
+  NSMutableString *content = [NSMutableString string];
+  for( StatecType *type in [self types] ) {
+    [content appendString:[type statementString]];
+  }
+  
+  return content;
+}
+
+
+- (NSString *)importStatementString:(NSArray *)imports {
+  NSMutableString *content = [NSMutableString string];
+  
+  for( NSString *import in imports ) {
+    if( [import hasPrefix:@"<"] ) {
+      [content appendFormat:@"#import %@\n",import];
+    } else {
+      [content appendFormat:@"#import \"%@\"\n",import];
+    }
+    [content appendString:@"\n"];
+  }
+  
+  return content;
+}
+
+
 - (NSString *)declarationsString {
   NSMutableString *content = [NSMutableString string];
+  
+  [content appendString:[self importStatementString:[self declarationImports]]];
+  
+  [content appendString:[self typeStatementString]];
   
   for( StatecClass *class in _classes ) {
     [content appendString:[class declarationString]];
@@ -55,6 +106,13 @@
 
 - (NSString *)definitionsString {
   NSMutableString *content = [NSMutableString string];
+  
+  [content appendString:[self importStatementString:[self definitionImports]]];
+  
+  for( StatecClass *class in [self classes] ) {
+    [content appendString:[class definitionString]];
+  }
+  [content appendString:@"\n"];
   
   return content;
 }

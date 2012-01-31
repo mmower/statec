@@ -8,8 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface StatecTypedef : NSObject
+#import "StatecType.h"
+
+@interface StatecTypedef : StatecType
 
 @property (strong) NSString *name;
+@property (strong) StatecType *type;
+
+- (id)initWithName:(NSString *)name type:(StatecType *)type;
 
 @end

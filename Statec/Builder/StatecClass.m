@@ -34,8 +34,6 @@
 
     _classDeclarations = [NSMutableArray array];
     
-    _headerImports = [NSMutableArray arrayWithObject:@"<Foundation/Foundation.h>"];
-    _classImports = [NSMutableArray arrayWithObject:[NSString stringWithFormat:@"%@.h",name]];
     
     _initializers = [NSMutableArray array];
     _properties = [NSMutableArray array];
@@ -126,26 +124,8 @@
 }
 
 
-- (NSString *)importStatementString:(NSArray *)imports {
-  NSMutableString *content = [NSMutableString string];
-  
-  for( NSString *import in imports ) {
-    if( [import hasPrefix:@"<"] ) {
-      [content appendFormat:@"#import %@\n",import];
-    } else {
-      [content appendFormat:@"#import \"%@\"\n",import];
-    }
-    [content appendString:@"\n"];
-  }
-  
-  return content;
-}
-
-
 - (NSString *)declarationString {
   NSMutableString *content = [NSMutableString string];
-  
-  [content appendString:[self importStatementString:[self headerImports]]];
   
   for( NSString *declaration in [self classDeclarations] ) {
     [content appendFormat:@"@class %@;",declaration];
@@ -164,8 +144,6 @@
 
 - (NSString *)definitionString {
   NSMutableString *content = [NSMutableString string];
-  
-  [content appendFormat:@"%@\n", [self importStatementString:[self classImports]]];
   
   [content appendFormat:@"@implementation %@\n", [self name], [self baseClassName]];
   

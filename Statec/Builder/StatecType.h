@@ -15,6 +15,6 @@
 - (id)initWithName:(NSString *)name;
 
 
-- (NSString *)definitionString;
+- (NSString *)statementString;
 
 @end
