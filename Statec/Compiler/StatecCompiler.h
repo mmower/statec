@@ -17,6 +17,6 @@
 
 - (id)initWithSource:(NSString *)source;
 
-- (StatecCompilationUnit *)compiledMachine;
+- (StatecCompilationUnit *)generatedMachine;
 
 @end

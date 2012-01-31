@@ -59,9 +59,9 @@
 - (void)append:(NSString *)format, ... {
   va_list args;
   va_start( args, format );
-  NSMutableString *content = [NSMutableString string];
-  CFStringAppendFormatAndArguments( (__bridge CFMutableStringRef)content, nil, (__bridge CFStringRef)format, args );
-  [[self statements] addObject:content];
+  NSString *formattedString = (__bridge_transfer NSString *)CFStringCreateWithFormatAndArguments( kCFAllocatorDefault, NULL, (__bridge CFStringRef)format, args );
+  va_end( args );
+  [[self statements] addObject:formattedString];
 }
 
 

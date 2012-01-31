@@ -33,19 +33,16 @@
 - (StatecMethod *)classInitializer {
   StatecMethod *method = [[StatecMethod alloc] initWithScope:StaticClassScope returnType:@"void" selector:@selector(initialize)];
   
-  StatecStatementGroup *body = [StatecStatementGroup group];
-  [body append:
+  [[method body] append:
    @"static dispatch_once_t onceToken;\n"
    @"dispatch_once(&onceToken, ^{\n"];
   
   for( NSString *stateName in [_machine states] ) {
-    [body append:@"_%@State = [[%@%@State alloc] init];\n", [stateName lowercaseString], [_machine name], [stateName capitalizedString]];
+    [[method body] append:@"_%@State = [[%@%@State alloc] init];\n", [stateName lowercaseString], [_machine name], [stateName capitalizedString]];
   }
   
-  [body append:
+  [[method body] append:
    @"});"];
-  
-  [method setBody:body];
   
   return method;
 }
@@ -56,19 +53,30 @@
  Generate the initializer for the machine class. This should initialize the current state variable to point
  to the global instance of the state subclass for the initial state.
  */
-- (StatecMethod *)initializer:(StatecVariable *)stateVariable {
+- (StatecMethod *)initializer:(StatecVariable *)stateVariable queueVariable:(StatecVariable *)queueVariable {
   StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"id" selector:@selector(init)];
-  
-  StatecStatementGroup *group = [[StatecStatementGroup alloc] init];
-  [group append:
+  [[method body] append:
    @"self = [super init];\n"
    @"if( self ) {\n"
-   @"%@\n"
+   @"%@ = %@\n"
+   @"%@ = dispatch_queue_create( %@, DISPATCH_QUEUE_SERIAL );\n"
    @"}\n"
-   @"return self;\n",[NSString stringWithFormat:@"%@ = %@;", [stateVariable name], [NSString stringWithFormat:@"_%@State",[[_machine initialState] lowercaseString]]]];
+   @"return self;\n",
+   [stateVariable name],
+   [NSString stringWithFormat:@"_%@State",[[_machine initialState] lowercaseString]],
+   [queueVariable name],
+   [NSString stringWithFormat:@"[[NSString stringWithFormat:@\"%@Machine.%%p\",self] UTF8String]",[_machine name]]
+   ];
   
-  [method setBody:group];
-  
+  return method;
+}
+
+
+- (StatecMethod *)deallocQueueVariable:(StatecVariable *)queueVariable {
+  StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"dealloc"];
+  [[method body] append:
+   @"dispatch_queue_release( %@ );\n", [queueVariable name]
+   ];
   return method;
 }
 
@@ -87,7 +95,10 @@
                                                     selector:selector];
   
   NSString *stateMethodName = [NSString stringWithFormat:@"%@EventFromMachine:",[event lowercaseString]];
-  [method setBody:[[StatecStatementGroup alloc] initWithFormat:@"[%@ %@self];",[state name], stateMethodName]];
+  [[method body] append:
+   @"[%@ %@self];", [state name], stateMethodName
+   ];
+  
   return method;
 }
 
@@ -119,27 +130,20 @@
   for( StatecEvent *event in [state events] ) {
     StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"%@EventFromMachine:",[[event name] lowercaseString]];
     [eventMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
-    
-    StatecStatementGroup *body = [StatecStatementGroup group];
-    
-    [body append:@" NSLog( @\"Respond to event: %@\" ); \n ", [event name]];
+    [[eventMethod body] append:@" NSLog( @\"Respond to event: %@\" ); \n ", [event name]];
     if( [state wantsExit] ) {
-      [body append:@"[machine exit%@State];\n", [[state name] capitalizedString]];
+      [[eventMethod body] append:@"[machine exit%@State];\n", [[state name] capitalizedString]];
     }
-    [body append:@"[machine transitionToState:_%@State];\n", [[event targetState] lowercaseString]];
-    
-    [eventMethod setBody:body];
+    [[eventMethod body] append:@"[machine transitionToState:_%@State];\n", [[event targetState] lowercaseString]];
     [stateClass addMethod:eventMethod];
   }
   
   if( [state wantsEnter] ) {
     StatecMethod *enterMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(enterFromMachine:)];
     [enterMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
-    StatecStatementGroup *body = [StatecStatementGroup group];
-    [body append:
+    [[enterMethod body] append:
      @"[machine enter%@State];\n", [[state name] capitalizedString]
      ];
-    [enterMethod setBody:body];
     [stateClass addMethod:enterMethod];
   }
   
@@ -151,7 +155,7 @@
  */
 - (StatecClass *)machineClassWithStateBaseClass:(StatecClass *)stateBaseClass {
   // Create the class <Foo>Machine that will represent the machine itself
-  StatecClass *machineClass = [[StatecClass alloc] initWithName:[NSString stringWithFormat:@"%@Machine",[_machine name]]];
+  StatecClass *machineClass = [[StatecClass alloc] initWithName:[NSString stringWithFormat:@"_%@Machine",[_machine name]]];
   
   // Add the +initialize method to create the state subclasses
   [machineClass addMethod:[self classInitializer]];
@@ -161,9 +165,19 @@
                                                                    name:@"_currentState"
                                                                    type:[stateBaseClass pointerType]];
   [machineClass addVariable:stateVariable];
+  
+  // Add to the machine class an instance variable represent a queue we will use to
+  // serialize state changes
+  StatecVariable *queueVariable = [[StatecVariable alloc] initWithScope:StatecInstanceScope
+                                                                   name:@"_lock" 
+                                                                   type:@"dispatch_queue_t"];
+  [machineClass addVariable:queueVariable];
 
   // Add to the machine class it's -init method that sets the initial state
-  [machineClass addInitializer:[self initializer:stateVariable]];
+  [machineClass addInitializer:[self initializer:stateVariable queueVariable:queueVariable]];
+  
+  // Add the dealloc method to release the queue
+  [machineClass addMethod:[self deallocQueueVariable:queueVariable]];
   
   // Add an event method, for all events, to the machine class
   [machineClass addMethods:[self eventMethods:stateVariable]];
@@ -186,20 +200,22 @@
   
   StatecMethod *transitionMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(transitionToState:)];
   [transitionMethod addArgument:[[StatecArgument alloc] initWithType:[stateBaseClass pointerType] name:@"state"]];
-  StatecStatementGroup *body = [StatecStatementGroup group];
-  [body append:
+  [[transitionMethod body] append:
+   @"dispatch_sync( %@, ^{\n"
+   @"%@ = state;\n"
    @"[state enterFromMachine:self];\n"
-   @"%@ = state;\n", [stateVariable name]
+   @"});\n",
+   [queueVariable name],
+   [stateVariable name]
    ];
-  [transitionMethod setBody:body];
   [machineClass addMethod:transitionMethod];
   
   return machineClass;
 }
 
 
-- (StatecCompilationUnit *)compiledMachine {
-  StatecCompilationUnit *unit = [[StatecCompilationUnit alloc] initWithName:[_machine name]];
+- (StatecCompilationUnit *)generatedMachine {
+  StatecCompilationUnit *unit = [[StatecCompilationUnit alloc] initWithName:[NSString stringWithFormat:@"_%@",[_machine name]]];
   
   // Create the base class <FooState> for the states
   StatecClass *stateBaseClass = [[StatecClass alloc] initWithName:[NSString stringWithFormat:@"%@State",[_machine name]]];
@@ -238,6 +254,16 @@
   }
   
   [unit addClass:machineClass];
+  
+  return unit;
+}
+
+
+- (StatecCompilationUnit *)userMachine {
+  StatecCompilationUnit *unit = [[StatecCompilationUnit alloc] initWithName:[_machine name]];
+  
+  
+  
   
   return unit;
 }

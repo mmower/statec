@@ -21,7 +21,7 @@
   self = [super init];
   if( self ) {
     _arguments = [NSMutableArray array];
-    _body = [[StatecStatementGroup alloc] init];
+    _body = [StatecStatementGroup group];
   }
   return self;
 }
