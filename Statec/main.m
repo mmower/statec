@@ -24,11 +24,8 @@ int main (int argc, const char * argv[])
       return -1;
     }
     
-    StatecCompiler *compiler = [[StatecCompiler alloc] init];
-    
-    
-    StatecCompilationUnit *unit = [compiler compileMachine:source];
-    
+    StatecCompiler *compiler = [[StatecCompiler alloc] initWithSource:source];
+    StatecCompilationUnit *unit = [compiler compiledMachine];
     if( ![unit writeFilesTo:@"/tmp/" error:&error] ) {
       NSLog( @"Cannot write class files: %@", [error localizedDescription] );
     }

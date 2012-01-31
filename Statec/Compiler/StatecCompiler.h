@@ -8,10 +8,15 @@
 
 #import <Foundation/Foundation.h>
 
+@class StatecMachine;
 @class StatecCompilationUnit;
 
-@interface StatecCompiler : NSObject
+@interface StatecCompiler : NSObject {
+  StatecMachine *_machine;
+}
 
-- (StatecCompilationUnit *)compileMachine:(NSString *)definition;
+- (id)initWithSource:(NSString *)source;
+
+- (StatecCompilationUnit *)compiledMachine;
 
 @end

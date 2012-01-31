@@ -15,6 +15,7 @@
 @synthesize name = _name;
 @synthesize declarationImports = _declarationImports;
 @synthesize definitionImports = _definitionImports;
+@synthesize variables = _variables;
 @synthesize types = _types;
 @synthesize classes = _classes;
 
@@ -25,10 +26,16 @@
     _name = name;
     _declarationImports = [NSMutableArray arrayWithObject:@"<Foundation/Foundation.h>"];
     _definitionImports = [NSMutableArray arrayWithObject:[NSString stringWithFormat:@"%@.h",name]];
+    _variables = [NSMutableArray array];
     _classes = [NSMutableArray array];
     _types = [NSMutableArray array];
   }
   return self;
+}
+
+
+- (void)addVariable:(StatecVariable *)variable {
+  [_variables addObject:variable];
 }
 
 
@@ -88,10 +95,34 @@
 }
 
 
+- (NSString *)variablesDeclarationString {
+  NSMutableString *content = [NSMutableString string];
+  for( StatecVariable *variable in [self variables] ) {
+    if( [variable isGlobalScope] && ![variable isStaticScope] ) {
+      [content appendString:[variable declarationString]];
+    }
+  }
+  return content;
+}
+
+
+- (NSString *)variablesDefinitionString {
+  NSMutableString *content = [NSMutableString string];
+  for( StatecVariable *variable in [self variables] ) {
+    if( [variable isGlobalScope] ) {
+      [content appendString:[variable definitionString]];
+    }
+  }
+  return content;
+}
+
+
 - (NSString *)declarationsString {
   NSMutableString *content = [NSMutableString string];
   
   [content appendString:[self importStatementString:[self declarationImports]]];
+  
+  [content appendString:[self variablesDeclarationString]];
   
   [content appendString:[self typeStatementString]];
   
@@ -108,6 +139,8 @@
   NSMutableString *content = [NSMutableString string];
   
   [content appendString:[self importStatementString:[self definitionImports]]];
+  
+  [content appendString:[self variablesDefinitionString]];
   
   for( StatecClass *class in [self classes] ) {
     [content appendString:[class definitionString]];

@@ -26,9 +26,13 @@
 @property (strong) NSMutableArray *classImports;
 
 - (id)initWithName:(NSString *)name;
+- (id)initWithname:(NSString *)name baseClass:(StatecClass *)baseClass;
 
 - (void)addVariable:(StatecVariable *)variable;
+
+- (void)addInitializer:(StatecMethod *)method;
 - (void)addMethod:(StatecMethod *)method;
+- (void)addMethods:(NSArray *)methods;
 
 
 - (NSString *)declarationString;

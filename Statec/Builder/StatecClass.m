@@ -34,11 +34,19 @@
 
     _classDeclarations = [NSMutableArray array];
     
-    
     _initializers = [NSMutableArray array];
     _properties = [NSMutableArray array];
     _variables = [NSMutableArray array];
     _methods = [NSMutableArray array];
+  }
+  return self;
+}
+
+
+- (id)initWithname:(NSString *)name baseClass:(StatecClass *)baseClass {
+  self = [self initWithName:name];
+  if( self ) {
+    _baseClass = baseClass;
   }
   return self;
 }
@@ -49,8 +57,18 @@
 }
 
 
+- (void)addInitializer:(StatecMethod *)method {
+  [[self initializers] addObject:method];
+}
+
+
 - (void)addMethod:(StatecMethod *)method {
   [[self methods] addObject:method];
+}
+
+
+- (void)addMethods:(NSArray *)methods {
+  [[self methods] addObjectsFromArray:methods];
 }
 
 
@@ -70,6 +88,28 @@
     if( [variable isInstanceScope] ) {
       [content appendString:[variable declarationString]];
     }
+  }
+  
+  return content;
+}
+
+
+- (NSString *)initializersDeclarationString {
+  NSMutableString *content = [NSMutableString string];
+  
+  for( StatecMethod *method in [self initializers] ) {
+    [content appendString:[method declarationString]];
+  }
+  
+  return content;
+}
+
+
+- (NSString *)initializersDefinitionString {
+  NSMutableString *content = [NSMutableString string];
+  
+  for( StatecMethod *method in [self initializers] ) {
+    [content appendFormat:@"%@\n",[method definitionString]];
   }
   
   return content;
@@ -135,6 +175,7 @@
   [content appendFormat:@"@interface %@ : %@ {\n", [self name], [self baseClassName]];
   [content appendFormat:@"%@\n}\n", [self instanceVariablesDeclarationString]];
   [content appendFormat:@"%@\n", [self propertiesDeclarationString]];
+  [content appendFormat:@"%@\n", [self initializersDeclarationString]];
   [content appendFormat:@"%@\n", [self instanceMethodsDeclarationString]];
   [content appendString:@"@end\n"];
   
@@ -148,6 +189,7 @@
   [content appendFormat:@"@implementation %@\n", [self name], [self baseClassName]];
   
   [content appendFormat:@"%@\n", [self propertiesDefinitionString]];
+  [content appendFormat:@"%@\n", [self initializersDefinitionString]];
   [content appendFormat:@"%@\n", [self instanceMethodsDefinitionString]];
   [content appendString:@"@end\n"];
   

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C98F6BD114D844530019E817 /* StatecConditionalStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C98F6BD014D844530019E817 /* StatecConditionalStatement.m */; };
 		C9A743AA14D6ECDE003E2DBA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A743A914D6ECDE003E2DBA /* Foundation.framework */; };
 		C9A743AD14D6ECDE003E2DBA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743AC14D6ECDE003E2DBA /* main.m */; };
 		C9A743B114D6ECDE003E2DBA /* Statec.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9A743B014D6ECDE003E2DBA /* Statec.1 */; };
@@ -30,6 +31,9 @@
 		C9A743FC14D805C7003E2DBA /* StatecEnumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743FB14D805C6003E2DBA /* StatecEnumeration.m */; };
 		C9A743FF14D807A2003E2DBA /* StatecType.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743FE14D807A1003E2DBA /* StatecType.m */; };
 		C9A7440214D8096B003E2DBA /* StatecCompilationUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440114D8096A003E2DBA /* StatecCompilationUnit.m */; };
+		C9A7440514D826E4003E2DBA /* StatecCodeStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440414D826E3003E2DBA /* StatecCodeStatement.m */; };
+		C9A7440814D82830003E2DBA /* StatecStatementGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440714D8282F003E2DBA /* StatecStatementGroup.m */; };
+		C9A7440B14D82897003E2DBA /* StatecStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440A14D82897003E2DBA /* StatecStatement.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -57,6 +61,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C98F6BCF14D844520019E817 /* StatecConditionalStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecConditionalStatement.h; path = Builder/StatecConditionalStatement.h; sourceTree = "<group>"; };
+		C98F6BD014D844530019E817 /* StatecConditionalStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecConditionalStatement.m; path = Builder/StatecConditionalStatement.m; sourceTree = "<group>"; };
 		C9A743A514D6ECDE003E2DBA /* Statec */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Statec; sourceTree = BUILT_PRODUCTS_DIR; };
 		C9A743A914D6ECDE003E2DBA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		C9A743AC14D6ECDE003E2DBA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -100,6 +106,12 @@
 		C9A743FE14D807A1003E2DBA /* StatecType.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecType.m; path = Builder/StatecType.m; sourceTree = "<group>"; };
 		C9A7440014D8096A003E2DBA /* StatecCompilationUnit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecCompilationUnit.h; path = Builder/StatecCompilationUnit.h; sourceTree = "<group>"; };
 		C9A7440114D8096A003E2DBA /* StatecCompilationUnit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecCompilationUnit.m; path = Builder/StatecCompilationUnit.m; sourceTree = "<group>"; };
+		C9A7440314D826E2003E2DBA /* StatecCodeStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecCodeStatement.h; path = Builder/StatecCodeStatement.h; sourceTree = "<group>"; };
+		C9A7440414D826E3003E2DBA /* StatecCodeStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecCodeStatement.m; path = Builder/StatecCodeStatement.m; sourceTree = "<group>"; };
+		C9A7440614D8282E003E2DBA /* StatecStatementGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecStatementGroup.h; path = Builder/StatecStatementGroup.h; sourceTree = "<group>"; };
+		C9A7440714D8282F003E2DBA /* StatecStatementGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecStatementGroup.m; path = Builder/StatecStatementGroup.m; sourceTree = "<group>"; };
+		C9A7440914D82896003E2DBA /* StatecStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecStatement.h; path = Builder/StatecStatement.h; sourceTree = "<group>"; };
+		C9A7440A14D82897003E2DBA /* StatecStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecStatement.m; path = Builder/StatecStatement.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +219,14 @@
 				C9A743FE14D807A1003E2DBA /* StatecType.m */,
 				C9A7440014D8096A003E2DBA /* StatecCompilationUnit.h */,
 				C9A7440114D8096A003E2DBA /* StatecCompilationUnit.m */,
+				C9A7440314D826E2003E2DBA /* StatecCodeStatement.h */,
+				C9A7440414D826E3003E2DBA /* StatecCodeStatement.m */,
+				C9A7440614D8282E003E2DBA /* StatecStatementGroup.h */,
+				C9A7440714D8282F003E2DBA /* StatecStatementGroup.m */,
+				C9A7440914D82896003E2DBA /* StatecStatement.h */,
+				C9A7440A14D82897003E2DBA /* StatecStatement.m */,
+				C98F6BCF14D844520019E817 /* StatecConditionalStatement.h */,
+				C98F6BD014D844530019E817 /* StatecConditionalStatement.m */,
 			);
 			name = Builder;
 			sourceTree = "<group>";
@@ -290,6 +310,10 @@
 				C9A743FC14D805C7003E2DBA /* StatecEnumeration.m in Sources */,
 				C9A743FF14D807A2003E2DBA /* StatecType.m in Sources */,
 				C9A7440214D8096B003E2DBA /* StatecCompilationUnit.m in Sources */,
+				C9A7440514D826E4003E2DBA /* StatecCodeStatement.m in Sources */,
+				C9A7440814D82830003E2DBA /* StatecStatementGroup.m in Sources */,
+				C9A7440B14D82897003E2DBA /* StatecStatement.m in Sources */,
+				C98F6BD114D844530019E817 /* StatecConditionalStatement.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -388,6 +412,7 @@
 				C9A743B614D6ECDE003E2DBA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

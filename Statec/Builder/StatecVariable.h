@@ -22,6 +22,7 @@
 
 - (BOOL)isInstanceScope;
 - (BOOL)isGlobalScope;
+- (BOOL)isStaticScope;
 
 - (NSString *)declarationString;
 - (NSString *)definitionString;

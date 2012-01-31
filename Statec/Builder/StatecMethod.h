@@ -10,15 +10,20 @@
 
 #import "Statec.h"
 
+@class StatecArgument;
+@class StatecStatementGroup;
+
 @interface StatecMethod : NSObject
 
 @property (assign) StatecScope scope;
 @property (strong) NSString *returnType;
 @property (assign) SEL selector;
-@property (strong) NSString *body;
+@property (strong) StatecStatementGroup *body;
 @property (strong) NSMutableArray *arguments;
 
 - (id)initWithScope:(StatecScope)scope returnType:(NSString *)returnType selector:(SEL)selector;
+
+- (void)addArgument:(StatecArgument *)argument;
 
 - (BOOL)isInstanceScope;
 - (BOOL)isClassScope;

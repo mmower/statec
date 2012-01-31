@@ -21,7 +21,7 @@
   self = [super init];
   if( self ) {
     _arguments = [NSMutableArray array];
-    _body = @"";
+    _body = [[StatecStatementGroup alloc] init];
   }
   return self;
 }
@@ -35,6 +35,11 @@
     _selector = selector;
   }
   return self;
+}
+
+
+- (void)addArgument:(StatecArgument *)argument {
+  [[self arguments] addObject:argument];
 }
 
 
@@ -102,7 +107,7 @@
 
 
 - (NSString *)definitionString {
-  return [NSString stringWithFormat:@"%@ {\n%@\n}\n",[self signatuareString],[self body]];
+  return [NSString stringWithFormat:@"%@ %@\n",[self signatuareString],[[self body] statementString]];
 }
 
 

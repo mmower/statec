@@ -26,12 +26,17 @@
 
 
 - (BOOL)isInstanceScope {
-  return _scope == StatecInstanceScope;
+  return ( _scope & StatecInstanceScope ) == StatecInstanceScope;
 }
 
 
 - (BOOL)isGlobalScope {
-  return _scope == StatecGlobalScope;
+  return ( _scope & StatecGlobalScope ) == StatecGlobalScope;
+}
+
+
+- (BOOL)isStaticScope {
+  return ( _scope & StatecStaticScope ) == StatecStaticScope;
 }
 
 
@@ -39,13 +44,25 @@
   if( [self isInstanceScope] ) {
     return [NSString stringWithFormat:@"\t%@ %@;\n", [self type], [self name]];
   } else {
-    return @"";
+    if( !(_scope & StatecStaticScope) ) {
+      return [NSString stringWithFormat:@"extern %@ %@;", [self type], [self name]];
+    } else {
+      return @"";
+    }
   }
 }
 
 
 - (NSString *)definitionString {
-  return @"";
+  if( [self isGlobalScope] ) {
+    if( _scope & StatecStaticScope ) {
+      return [NSString stringWithFormat:@"static %@ %@;\n", [self type], [self name]];
+    } else {
+      return [NSString stringWithFormat:@"%@ %@;\n", [self type], [self name]];
+    }
+  } else {
+    return @"";
+  }
 }
 
 

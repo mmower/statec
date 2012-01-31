@@ -10,9 +10,10 @@
 #define Statec_Statec_h
 
 typedef enum {
-  StatecInstanceScope,
-  StaticClassScope,
-  StatecGlobalScope
+  StatecInstanceScope = 1,
+  StaticClassScope = 2,
+  StatecGlobalScope = 4,
+  StatecStaticScope = 8
 } StatecScope;
 
 
@@ -25,6 +26,10 @@ typedef enum {
 #import "StatecArgument.h"
 #import "StatecProperty.h"
 #import "StatecVariable.h"
+#import "StatecStatement.h"
+#import "StatecCodeStatement.h"
+#import "StatecConditionalStatement.h"
+#import "StatecStatementGroup.h"
 
 #import "StatecParser.h"
 #import "StatecMachine.h"

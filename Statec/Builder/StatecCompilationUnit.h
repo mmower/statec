@@ -10,12 +10,14 @@
 
 @class StatecType;
 @class StatecClass;
+@class StatecVariable;
 
 @interface StatecCompilationUnit : NSObject
 
 @property (strong) NSString *name;
 @property (strong) NSMutableArray *declarationImports;
 @property (strong) NSMutableArray *definitionImports;
+@property (strong) NSMutableArray *variables;
 @property (strong) NSMutableArray *types;
 @property (strong) NSMutableArray *classes;
 
@@ -23,6 +25,7 @@
 
 - (void)addDeclarationImport:(NSString *)import;
 - (void)addDefinitionImport:(NSString *)import;
+- (void)addVariable:(StatecVariable *)variable;
 - (void)addClass:(StatecClass *)class;
 - (void)addType:(StatecType *)type;
 
