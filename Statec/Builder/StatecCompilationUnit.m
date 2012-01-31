@@ -122,6 +122,7 @@
       [content appendString:[variable declarationString]];
     }
   }
+  [content appendString:@"\n\n"];
   return content;
 }
 
@@ -133,6 +134,7 @@
       [content appendString:[variable definitionString]];
     }
   }
+  [content appendString:@"\n\n"];
   return content;
 }
 

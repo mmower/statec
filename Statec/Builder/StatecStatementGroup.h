@@ -17,12 +17,10 @@
 + (StatecStatementGroup *)group;
 
 - (id)initWithBody:(NSString *)body;
-- (id)initWithStatement:(StatecStatement *)statement;
-
+- (id)initWithFormat:(NSString *)format, ...;
+//- (id)initWithStatement:(StatecStatement *)statement;
 
 - (void)append:(NSString *)format, ...;
-//- (void)addLine:(NSString *)line;
 - (void)addStatement:(StatecStatement *)statement;
-
 
 @end

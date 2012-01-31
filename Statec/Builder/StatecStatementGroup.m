@@ -31,19 +31,29 @@
 - (id)initWithBody:(NSString *)body {
   self = [self init];
   if( self ) {
-    [self addStatement:[[StatecCodeStatement alloc] initWithBody:body]];
+    [self append:body];
+//    [self addStatement:[[StatecCodeStatement alloc] initWithBody:body]];
   }
   return self;
 }
 
 
-- (id)initWithStatement:(StatecStatement *)statement {
-  self = [self init];
-  if( self ) {
-    [self addStatement:statement];
-  }
-  return self;
+- (id)initWithFormat:(NSString *)format, ... {
+  va_list args;
+  va_start( args, format );
+  NSString *body = (__bridge_transfer NSString *)CFStringCreateWithFormatAndArguments(kCFAllocatorDefault, NULL, (__bridge CFStringRef)format, args );
+  va_end( args );
+  return [self initWithBody:body];
 }
+
+
+//- (id)initWithStatement:(StatecStatement *)statement {
+//  self = [self init];
+//  if( self ) {
+//    [self addStatement:statement];
+//  }
+//  return self;
+//}
 
 
 - (void)append:(NSString *)format, ... {

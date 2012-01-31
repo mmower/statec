@@ -45,4 +45,14 @@
   return self;
 }
 
+- (BOOL)respondsToEventName:(NSString *)eventName {
+  for( StatecEvent *event in [self events] ) {
+    if( [[event name] isEqualToString:eventName] ) {
+      return YES;
+    }
+  }
+  
+  return NO;
+}
+
 @end

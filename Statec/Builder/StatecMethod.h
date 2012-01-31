@@ -22,6 +22,7 @@
 @property (strong) NSMutableArray *arguments;
 
 - (id)initWithScope:(StatecScope)scope returnType:(NSString *)returnType selector:(SEL)selector;
+- (id)initWithScope:(StatecScope)scope returnType:(NSString *)returnType selectorFormat:(NSString *)format, ...;
 
 - (void)addArgument:(StatecArgument *)argument;
 

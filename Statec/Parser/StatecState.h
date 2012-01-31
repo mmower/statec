@@ -18,4 +18,6 @@
 @property (assign) BOOL wantsExit;
 @property (strong,readonly) NSArray *events;
 
+- (BOOL)respondsToEventName:(NSString *)eventName;
+
 @end

@@ -38,6 +38,15 @@
 }
 
 
+- (id)initWithScope:(StatecScope)scope returnType:(NSString *)returnType selectorFormat:(NSString *)format, ... {
+  va_list args;
+  va_start( args, format );
+  NSString *selectorString = (__bridge_transfer NSString *)CFStringCreateWithFormatAndArguments( kCFAllocatorDefault, NULL, (__bridge CFStringRef)format, args );
+  va_end( args );
+  return [self initWithScope:scope returnType:returnType selector:NSSelectorFromString(selectorString)];
+}
+
+
 - (void)addArgument:(StatecArgument *)argument {
   [[self arguments] addObject:argument];
 }

@@ -56,7 +56,6 @@
  Generate the initializer for the machine class. This should initialize the current state variable to point
  to the global instance of the state subclass for the initial state.
  */
-
 - (StatecMethod *)initializer:(StatecVariable *)stateVariable {
   StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"id" selector:@selector(init)];
   
@@ -74,22 +73,12 @@
 }
 
 
-- (StatecMethod *)transitionMethod:(StatecType *)stateType {
-  StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"BOOL" selector:@selector(canTransitionFromSourceState:toTargetState:)];
-  [method addArgument:[[StatecArgument alloc] initWithType:[stateType name] name:@"sourceState"]];
-  [method addArgument:[[StatecArgument alloc] initWithType:[stateType name] name:@"targetState"]];
-  return method;                      
-}
-
-
-
 /*
  Generate a method, to be added to the machine class, to respond to a specific event.
  
  The method tests whether the current state class can respond to this event. If it can then the event is passed
  on to the current state class. Otherwise an exception is raised to report the illegal attempted transition.
  */
-
 - (StatecMethod *)eventMethodForEvent:(NSString *)event state:(StatecVariable *)state withTransitions:(NSArray *)transitions {
   SEL selector = NSSelectorFromString([NSString stringWithFormat:@"%@Event",[event lowercaseString]]);
   
@@ -97,15 +86,9 @@
                                                   returnType:@"void" 
                                                     selector:selector];
   
-  
-  NSString *condition = [NSString stringWithFormat:@"[%@ respondsToSelector:@selector(%@)]", [state name], NSStringFromSelector(selector)];
-  StatecConditionalStatement *condStatement = [[StatecConditionalStatement alloc] initWithCondition:condition];
-  [condStatement setIfTrue:[[StatecStatementGroup alloc] initWithBody:@"NSLog( @\"Event\" )"]];
-  [condStatement setIfFalse:[[StatecStatementGroup alloc] initWithBody:[NSString stringWithFormat:@"[NSException raise:@\"StateMachineException\" format:@\"Illegal event %@\"]", event]]];
-  
-  [method setBody:[[StatecStatementGroup alloc] initWithStatement:condStatement]];
-  
-   return method;
+  NSString *stateMethodName = [NSString stringWithFormat:@"%@EventFromMachine:",[event lowercaseString]];
+  [method setBody:[[StatecStatementGroup alloc] initWithFormat:@"[%@ %@self];",[state name], stateMethodName]];
+  return method;
 }
 
 
@@ -114,8 +97,6 @@
  
  A method for every event (across all states) is added here.
  */
-
-
 - (NSArray *)eventMethods:(StatecVariable *)stateVariable {
   NSMutableArray *methods = [NSMutableArray array];
   for( NSString *eventName in [_machine events] ) {
@@ -127,20 +108,48 @@
 }
 
 
-- (StatecClass *)stateClass:(StatecState *)state baseClass:(StatecClass *)baseClass machineClassPtrType:(NSString *)machineClassPtrType {
+/*
+ Generate a subclass of <Foo>State to represent a concrete state in <Foo>Machine.
+ */
+- (StatecClass *)stateClass:(StatecState *)state baseClass:(StatecClass *)baseClass machineClass:(StatecClass *)machineClass {
   StatecClass *stateClass = [[StatecClass alloc] initWithname:[NSString stringWithFormat:@"%@%@State",[_machine name],[[state name] capitalizedString]] baseClass:baseClass];
+  
+  // For every event this state recognises define an event method
+  // that traverses to the target state
   for( StatecEvent *event in [state events] ) {
-    StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:NSSelectorFromString([NSString stringWithFormat:@"%@EventFromMachine:",[[event name] lowercaseString]])];
-    [method addArgument:[[StatecArgument alloc] initWithType:machineClassPtrType name:@"machine"]];
+    StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"%@EventFromMachine:",[[event name] lowercaseString]];
+    [eventMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
     
-    [stateClass addMethod:method];
+    StatecStatementGroup *body = [StatecStatementGroup group];
+    
+    [body append:@" NSLog( @\"Respond to event: %@\" ); \n ", [event name]];
+    if( [state wantsExit] ) {
+      [body append:@"[machine exit%@State];\n", [[state name] capitalizedString]];
+    }
+    [body append:@"[machine transitionToState:_%@State];\n", [[event targetState] lowercaseString]];
+    
+    [eventMethod setBody:body];
+    [stateClass addMethod:eventMethod];
   }
+  
+  if( [state wantsEnter] ) {
+    StatecMethod *enterMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(enterFromMachine:)];
+    [enterMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
+    StatecStatementGroup *body = [StatecStatementGroup group];
+    [body append:
+     @"[machine enter%@State];\n", [[state name] capitalizedString]
+     ];
+    [enterMethod setBody:body];
+    [stateClass addMethod:enterMethod];
+  }
+  
   return stateClass;
-
 }
 
-
-- (StatecClass *)machineClassWithStateBaseClassPtrType:(NSString *)stateBaseClassPtrType {
+/*
+ Generate the <Foo>Machine class.
+ */
+- (StatecClass *)machineClassWithStateBaseClass:(StatecClass *)stateBaseClass {
   // Create the class <Foo>Machine that will represent the machine itself
   StatecClass *machineClass = [[StatecClass alloc] initWithName:[NSString stringWithFormat:@"%@Machine",[_machine name]]];
   
@@ -150,7 +159,7 @@
   // Add to the machine class an instance variable representing the current state
   StatecVariable *stateVariable = [[StatecVariable alloc] initWithScope:StatecInstanceScope 
                                                                    name:@"_currentState"
-                                                                   type:stateBaseClassPtrType];
+                                                                   type:[stateBaseClass pointerType]];
   [machineClass addVariable:stateVariable];
 
   // Add to the machine class it's -init method that sets the initial state
@@ -158,6 +167,32 @@
   
   // Add an event method, for all events, to the machine class
   [machineClass addMethods:[self eventMethods:stateVariable]];
+  
+  // For every state that wanted enter notification we provide a callback that can be overridden
+  // by the user state machine class
+  for( NSString *stateName in [_machine states] ) {
+    StatecState *state = [[_machine states] objectForKey:stateName];
+    if( [state wantsEnter] ) {
+      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"enter%@State",[[state name] capitalizedString]];
+      [method setBody:[[StatecStatementGroup alloc] initWithFormat:@"// Override in user machine subclass"]];
+      [machineClass addMethod:method];
+    }
+    if( [state wantsExit] ) {
+      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"exit%@State",[[state name] capitalizedString]];
+      [method setBody:[[StatecStatementGroup alloc] initWithFormat:@"// Override in user machine subclass"]];
+      [machineClass addMethod:method];
+    }
+  }
+  
+  StatecMethod *transitionMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(transitionToState:)];
+  [transitionMethod addArgument:[[StatecArgument alloc] initWithType:[stateBaseClass pointerType] name:@"state"]];
+  StatecStatementGroup *body = [StatecStatementGroup group];
+  [body append:
+   @"[state enterFromMachine:self];\n"
+   @"%@ = state;\n", [stateVariable name]
+   ];
+  [transitionMethod setBody:body];
+  [machineClass addMethod:transitionMethod];
   
   return machineClass;
 }
@@ -169,11 +204,24 @@
   // Create the base class <FooState> for the states
   StatecClass *stateBaseClass = [[StatecClass alloc] initWithName:[NSString stringWithFormat:@"%@State",[_machine name]]];
   [unit addClass:stateBaseClass];
-  NSString *stateBaseClassPtrType = [NSString stringWithFormat:@"%@*",[stateBaseClass name]];
-
   
-  StatecClass *machineClass = [self machineClassWithStateBaseClassPtrType:stateBaseClassPtrType];
-  NSString *machineClassPtrType = [NSString stringWithFormat:@"%@*",[machineClass name]];
+  StatecClass *machineClass = [self machineClassWithStateBaseClass:stateBaseClass];
+  
+  // Now add to <Foo>State a method for each event that raises an exception if the event is
+  // fired. Specific subclasses will override this with a method that handles the event if
+  // the state recognises that event.
+  for( NSString *eventName in [_machine events] ) {
+    StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"%@EventFromMachine:",[eventName lowercaseString]];
+    [eventMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
+    [eventMethod setBody:[[StatecStatementGroup alloc] initWithFormat:@"[NSException raise:@\"StateMachineException\" format:@\"Illegal event '%@'!\"];",eventName]];
+    [stateBaseClass addMethod:eventMethod];
+  }
+  
+  // Add the generic enterFromMachine: method
+  StatecMethod *enterMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(enterFromMachine:)];
+  [enterMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
+  [enterMethod setBody:[[StatecStatementGroup alloc] initWithFormat:@"// Subclasses will redefine if enter callbacks are required for their state\n"]];
+  [stateBaseClass addMethod:enterMethod];
   
   // Make the machine class available to the State classes that get declared before it
   [unit addForwardDeclaration:[machineClass name]];
@@ -182,10 +230,10 @@
   // pointer for a staticly allocated instance of the class
   for( NSString *stateName in [_machine states] ) {
     StatecState *state = [[_machine states] objectForKey:stateName];
-    [unit addClass:[self stateClass:state baseClass:stateBaseClass machineClassPtrType:machineClassPtrType]];
+    [unit addClass:[self stateClass:state baseClass:stateBaseClass machineClass:machineClass]];
     StatecVariable *stateGlobalVariable = [[StatecVariable alloc] initWithScope:StatecGlobalScope|StatecStaticScope
                                                                            name:[NSString stringWithFormat:@"_%@State",[stateName lowercaseString]] 
-                                                                           type:stateBaseClassPtrType];
+                                                                           type:[stateBaseClass pointerType]];
     [unit addVariable:stateGlobalVariable];
   }
   

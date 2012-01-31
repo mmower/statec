@@ -50,6 +50,11 @@
 }
 
 
+- (NSString *)pointerType {
+  return [NSString stringWithFormat:@"%@*", [self name]];
+}
+
+
 - (void)addVariable:(StatecVariable *)variable {
   [[self variables] addObject:variable];
 }
@@ -202,7 +207,7 @@
   [content appendFormat:@"%@\n", [self propertiesDeclarationString]];
   [content appendFormat:@"%@\n", [self initializersDeclarationString]];
   [content appendFormat:@"%@\n", [self instanceMethodsDeclarationString]];
-  [content appendString:@"@end\n"];
+  [content appendString:@"@end\n\n\n"];
   
   return content;
 }
@@ -216,7 +221,7 @@
   [content appendFormat:@"%@\n", [self propertiesDefinitionString]];
   [content appendFormat:@"%@\n", [self initializersDefinitionString]];
   [content appendFormat:@"%@\n", [self instanceMethodsDefinitionString]];
-  [content appendString:@"@end\n"];
+  [content appendString:@"@end\n\n\n"];
   
   return content;
 }

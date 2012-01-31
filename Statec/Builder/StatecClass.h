@@ -37,4 +37,6 @@
 - (NSString *)declarationString;
 - (NSString *)definitionString;
 
+- (NSString *)pointerType;
+
 @end
