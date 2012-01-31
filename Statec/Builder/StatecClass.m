@@ -56,16 +56,6 @@
 }
 
 
-- (NSString *)headerFileName {
-  return [NSString stringWithFormat:@"%@.h",[self name]];
-}
-
-
-- (NSString *)classFileName {
-  return [NSString stringWithFormat:@"%@.m",[self name]];
-}
-
-
 - (NSString *)baseClassName {
   if( [self baseClass] ) {
     return [[self baseClass] name];
@@ -152,7 +142,7 @@
 }
 
 
-- (NSString *)classDeclarationString {
+- (NSString *)declarationString {
   NSMutableString *content = [NSMutableString string];
   
   [content appendString:[self importStatementString:[self headerImports]]];
@@ -172,7 +162,7 @@
 }
 
 
-- (NSString *)classDefinitionString {
+- (NSString *)definitionString {
   NSMutableString *content = [NSMutableString string];
   
   [content appendFormat:@"%@\n", [self importStatementString:[self classImports]]];
@@ -186,26 +176,5 @@
   return content;
 }
 
-
-- (BOOL)writeHeaderFileTo:(NSString *)path error:(NSError **)error {
-  return [[self classDeclarationString] writeToFile:path atomically:NO encoding:NSUTF8StringEncoding error:error];
-}
-
-
-- (BOOL)writeClassFileTo:(NSString *)path error:(NSError **)error {
-  return [[self classDefinitionString] writeToFile:path atomically:NO encoding:NSUTF8StringEncoding error:error];
-}
-
-
-- (BOOL)writeClassFilesTo:(NSString *)folder error:(NSError **)error {
-  if( ![self writeHeaderFileTo:[folder stringByAppendingPathComponent:[self headerFileName]] error:error] ) {
-    return NO;
-  }
-  if( ![self writeClassFileTo:[folder stringByAppendingPathComponent:[self classFileName]] error:error] ) {
-    return NO;
-  }
-  
-  return YES;
-}
 
 @end

@@ -1,5 +1,5 @@
 //
-//  StatecCompiler.h
+//  StatecType.h
 //  Statec
 //
 //  Created by Matt Mower on 31/01/2012.
@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class StatecCompilationUnit;
+@interface StatecType : NSObject
 
-@interface StatecCompiler : NSObject
+@property (strong) NSString *name;
 
-- (StatecCompilationUnit *)compileMachine:(NSString *)definition;
+- (id)initWithName:(NSString *)name;
+
+
+- (NSString *)definitionString;
 
 @end

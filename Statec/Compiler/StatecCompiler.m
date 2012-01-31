@@ -12,9 +12,14 @@
 
 @implementation StatecCompiler
 
-- (StatecClass *)compileClassFromMachineDefinition:(NSString *)definition {
+- (StatecCompilationUnit *)compileMachine:(NSString *)definition {
   StatecParser *parser = [[StatecParser alloc] init];
   StatecMachine *machine = (StatecMachine *)[parser parse:definition];
+  
+  StatecCompilationUnit *unit = [[StatecCompilationUnit alloc] initWithName:[machine name]];
+  
+  
+  
   StatecClass *class = [[StatecClass alloc] initWithName:[machine name]];
   
   [class addVariable:[[StatecVariable alloc] initWithScope:StatecInstanceScope 
@@ -27,7 +32,7 @@
     [class addMethod:method];
   }
   
-  return class;
+  return unit;
 }
 
 

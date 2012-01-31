@@ -30,6 +30,8 @@
 - (void)addVariable:(StatecVariable *)variable;
 - (void)addMethod:(StatecMethod *)method;
 
-- (BOOL)writeClassFilesTo:(NSString *)folder error:(NSError **)error;
+
+- (NSString *)declarationString;
+- (NSString *)definitionString;
 
 @end

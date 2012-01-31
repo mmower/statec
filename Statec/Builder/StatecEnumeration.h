@@ -1,5 +1,5 @@
 //
-//  StatecCompiler.h
+//  StatecEnumeration.h
 //  Statec
 //
 //  Created by Matt Mower on 31/01/2012.
@@ -8,10 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class StatecCompilationUnit;
+#import "StatecType.h"
 
-@interface StatecCompiler : NSObject
+@interface StatecEnumeration : StatecType {
+  NSMutableArray *_elements;
+}
 
-- (StatecCompilationUnit *)compileMachine:(NSString *)definition;
+- (void)addElement:(NSString *)element;
 
 @end

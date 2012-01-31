@@ -15,6 +15,10 @@ typedef enum {
   StatecGlobalScope
 } StatecScope;
 
+
+#import "StatecCompilationUnit.h"
+#import "StatecEnumeration.h"
+#import "StatecType.h"
 #import "StatecClass.h"
 #import "StatecMethod.h"
 #import "StatecArgument.h"
@@ -31,5 +35,6 @@ typedef enum {
 #import "StatecTransition.h"
 
 #import "StatecCompiler.h"
+
 
 #endif
