@@ -8,6 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@interface StatecParser : NSObject
+#import <CoreParse/CoreParse.h>
+
+@interface StatecParser : NSObject <CPTokeniserDelegate>
+
+- (CPTokeniser *)tokenizer;
+- (CPGrammar *)grammar;
+- (CPParser *)parser;
+- (CPTokenStream *)tokenStream:(NSString *)source;
+- (id<NSObject>)parse:(NSString *)source;
 
 @end

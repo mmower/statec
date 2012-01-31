@@ -21,4 +21,14 @@ typedef enum {
 #import "StatecProperty.h"
 #import "StatecVariable.h"
 
+#import "StatecParser.h"
+#import "StatecMachine.h"
+#import "StatecInitial.h"
+#import "StatecState.h"
+#import "StatecEnter.h"
+#import "StatecExit.h"
+#import "StatecEvent.h"
+
+#import "StatecCompiler.h"
+
 #endif

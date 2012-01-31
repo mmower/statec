@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+#import <CoreParse/CoreParse.h>
+
 #import "Statec.h"
 
 int main (int argc, const char * argv[])
@@ -15,24 +17,17 @@ int main (int argc, const char * argv[])
   @autoreleasepool {
     NSError *error;
     
-    StatecClass *class = [[StatecClass alloc] initWithName:@"Test"];
     
-    StatecVariable *var = [[StatecVariable alloc] initWithScope:StatecInstanceScope name:@"_foo" type:@"int"];
+    NSString *source = [[NSString alloc] initWithContentsOfFile:@"/Volumes/Corrino/matt/foo.smd" encoding:NSUTF8StringEncoding error:&error];
+    if( !source ) {
+      NSLog( @"Cannot read source: %@", [error localizedDescription] );
+      return -1;
+    }
     
-    [[class variables] addObject:var];
-                           
-    
-    StatecProperty *property = [[StatecProperty alloc] init];
-    [property setName:@"name"];
-    [property setType:@"NSString *"];
-    [[property attributes] addObject:@"strong"];
-    [[class properties] addObject:property];
+    StatecCompiler *compiler = [[StatecCompiler alloc] init];
     
     
-    StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(foo:)];
-    [[method arguments] addObject:[[StatecArgument alloc] initWithType:@"NSString*" name:@"foo"]];
-    [[class methods] addObject:method];
-    
+    StatecClass *class = [compiler compileClassFromMachineDefinition:source];
     if( ![class writeClassFilesTo:@"/tmp/" error:&error] ) {
       NSLog( @"Cannot write class files: %@", [error localizedDescription] );
     }

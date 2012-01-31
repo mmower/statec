@@ -18,6 +18,13 @@
 		C9A743D114D6F189003E2DBA /* StatecVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D014D6F189003E2DBA /* StatecVariable.m */; };
 		C9A743D414D6F210003E2DBA /* StatecProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D314D6F210003E2DBA /* StatecProperty.m */; };
 		C9A743D814D7326E003E2DBA /* StatecArgument.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D714D7326E003E2DBA /* StatecArgument.m */; };
+		C9A743E014D765AC003E2DBA /* StatecMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743DF14D765AC003E2DBA /* StatecMachine.m */; };
+		C9A743E314D76BF2003E2DBA /* StatecInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743E214D76BF2003E2DBA /* StatecInitial.m */; };
+		C9A743E614D76C02003E2DBA /* StatecState.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743E514D76C02003E2DBA /* StatecState.m */; };
+		C9A743E914D76C13003E2DBA /* StatecEnter.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743E814D76C13003E2DBA /* StatecEnter.m */; };
+		C9A743EC14D76C22003E2DBA /* StatecExit.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743EB14D76C22003E2DBA /* StatecExit.m */; };
+		C9A743EF14D76C2F003E2DBA /* StatecEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743EE14D76C2E003E2DBA /* StatecEvent.m */; };
+		C9A743F314D774FC003E2DBA /* StatecCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743F214D774FC003E2DBA /* StatecCompiler.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -64,6 +71,20 @@
 		C9A743D514D70BB0003E2DBA /* Statec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Statec.h; sourceTree = "<group>"; };
 		C9A743D614D7326E003E2DBA /* StatecArgument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecArgument.h; path = Builder/StatecArgument.h; sourceTree = "<group>"; };
 		C9A743D714D7326E003E2DBA /* StatecArgument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecArgument.m; path = Builder/StatecArgument.m; sourceTree = "<group>"; };
+		C9A743DE14D765AC003E2DBA /* StatecMachine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecMachine.h; path = Parser/StatecMachine.h; sourceTree = "<group>"; };
+		C9A743DF14D765AC003E2DBA /* StatecMachine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecMachine.m; path = Parser/StatecMachine.m; sourceTree = "<group>"; };
+		C9A743E114D76BF2003E2DBA /* StatecInitial.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecInitial.h; path = Parser/StatecInitial.h; sourceTree = "<group>"; };
+		C9A743E214D76BF2003E2DBA /* StatecInitial.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecInitial.m; path = Parser/StatecInitial.m; sourceTree = "<group>"; };
+		C9A743E414D76C02003E2DBA /* StatecState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecState.h; path = Parser/StatecState.h; sourceTree = "<group>"; };
+		C9A743E514D76C02003E2DBA /* StatecState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecState.m; path = Parser/StatecState.m; sourceTree = "<group>"; };
+		C9A743E714D76C13003E2DBA /* StatecEnter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecEnter.h; path = Parser/StatecEnter.h; sourceTree = "<group>"; };
+		C9A743E814D76C13003E2DBA /* StatecEnter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecEnter.m; path = Parser/StatecEnter.m; sourceTree = "<group>"; };
+		C9A743EA14D76C22003E2DBA /* StatecExit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecExit.h; path = Parser/StatecExit.h; sourceTree = "<group>"; };
+		C9A743EB14D76C22003E2DBA /* StatecExit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecExit.m; path = Parser/StatecExit.m; sourceTree = "<group>"; };
+		C9A743ED14D76C2E003E2DBA /* StatecEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StatecEvent.h; sourceTree = "<group>"; };
+		C9A743EE14D76C2E003E2DBA /* StatecEvent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StatecEvent.m; sourceTree = "<group>"; };
+		C9A743F114D774FC003E2DBA /* StatecCompiler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecCompiler.h; path = Compiler/StatecCompiler.h; sourceTree = "<group>"; };
+		C9A743F214D774FC003E2DBA /* StatecCompiler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecCompiler.m; path = Compiler/StatecCompiler.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +129,7 @@
 		C9A743AB14D6ECDE003E2DBA /* Statec */ = {
 			isa = PBXGroup;
 			children = (
+				C9A743F014D774E2003E2DBA /* Compiler */,
 				C9A743BC14D6ED14003E2DBA /* Builder */,
 				C9A743BB14D6ED0C003E2DBA /* Parser */,
 				C9A743AC14D6ECDE003E2DBA /* main.m */,
@@ -131,6 +153,18 @@
 			children = (
 				C9A743BD14D6ED3A003E2DBA /* StatecParser.h */,
 				C9A743BE14D6ED3A003E2DBA /* StatecParser.m */,
+				C9A743DE14D765AC003E2DBA /* StatecMachine.h */,
+				C9A743DF14D765AC003E2DBA /* StatecMachine.m */,
+				C9A743E114D76BF2003E2DBA /* StatecInitial.h */,
+				C9A743E214D76BF2003E2DBA /* StatecInitial.m */,
+				C9A743E414D76C02003E2DBA /* StatecState.h */,
+				C9A743E514D76C02003E2DBA /* StatecState.m */,
+				C9A743E714D76C13003E2DBA /* StatecEnter.h */,
+				C9A743E814D76C13003E2DBA /* StatecEnter.m */,
+				C9A743EA14D76C22003E2DBA /* StatecExit.h */,
+				C9A743EB14D76C22003E2DBA /* StatecExit.m */,
+				C9A743ED14D76C2E003E2DBA /* StatecEvent.h */,
+				C9A743EE14D76C2E003E2DBA /* StatecEvent.m */,
 			);
 			name = Parser;
 			sourceTree = "<group>";
@@ -150,6 +184,15 @@
 				C9A743D714D7326E003E2DBA /* StatecArgument.m */,
 			);
 			name = Builder;
+			sourceTree = "<group>";
+		};
+		C9A743F014D774E2003E2DBA /* Compiler */ = {
+			isa = PBXGroup;
+			children = (
+				C9A743F114D774FC003E2DBA /* StatecCompiler.h */,
+				C9A743F214D774FC003E2DBA /* StatecCompiler.m */,
+			);
+			name = Compiler;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -210,6 +253,13 @@
 				C9A743D114D6F189003E2DBA /* StatecVariable.m in Sources */,
 				C9A743D414D6F210003E2DBA /* StatecProperty.m in Sources */,
 				C9A743D814D7326E003E2DBA /* StatecArgument.m in Sources */,
+				C9A743E014D765AC003E2DBA /* StatecMachine.m in Sources */,
+				C9A743E314D76BF2003E2DBA /* StatecInitial.m in Sources */,
+				C9A743E614D76C02003E2DBA /* StatecState.m in Sources */,
+				C9A743E914D76C13003E2DBA /* StatecEnter.m in Sources */,
+				C9A743EC14D76C22003E2DBA /* StatecExit.m in Sources */,
+				C9A743EF14D76C2F003E2DBA /* StatecEvent.m in Sources */,
+				C9A743F314D774FC003E2DBA /* StatecCompiler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

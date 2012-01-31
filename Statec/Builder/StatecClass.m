@@ -46,6 +46,11 @@
 }
 
 
+- (void)addVariable:(StatecVariable *)variable {
+  [[self variables] addObject:variable];
+}
+
+
 - (NSString *)headerFileName {
   return [NSString stringWithFormat:@"%@.h",[self name]];
 }

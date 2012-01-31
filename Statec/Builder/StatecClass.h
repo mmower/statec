@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@class StatecVariable;
+
 @interface StatecClass : NSObject
 
 @property (strong) NSString *name;
@@ -23,6 +25,8 @@
 @property (strong) NSMutableArray *classImports;
 
 - (id)initWithName:(NSString *)name;
+
+- (void)addVariable:(StatecVariable *)variable;
 
 - (BOOL)writeClassFilesTo:(NSString *)folder error:(NSError **)error;
 
