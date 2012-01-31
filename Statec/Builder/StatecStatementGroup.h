@@ -14,10 +14,14 @@
 
 @property (strong) NSMutableArray *statements;
 
++ (StatecStatementGroup *)group;
+
 - (id)initWithBody:(NSString *)body;
 - (id)initWithStatement:(StatecStatement *)statement;
 
-- (void)addLine:(NSString *)line;
+
+- (void)append:(NSString *)format, ...;
+//- (void)addLine:(NSString *)line;
 - (void)addStatement:(StatecStatement *)statement;
 
 

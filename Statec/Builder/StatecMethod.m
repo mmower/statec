@@ -44,12 +44,12 @@
 
 
 - (BOOL)isInstanceScope {
-  return StatecInstanceScope == _scope;
+  return (StatecInstanceScope & _scope) == StatecInstanceScope;
 }
 
 
 - (BOOL)isClassScope {
-  return StaticClassScope == _scope;
+  return ( StaticClassScope & _scope ) == StaticClassScope;
 }
 
 

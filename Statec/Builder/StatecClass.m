@@ -31,9 +31,7 @@
   self = [super init];
   if( self ) {
     _name = name;
-
     _classDeclarations = [NSMutableArray array];
-    
     _initializers = [NSMutableArray array];
     _properties = [NSMutableArray array];
     _variables = [NSMutableArray array];
@@ -78,6 +76,32 @@
   } else {
     return @"NSObject";
   }
+}
+
+
+- (NSString *)classMethodsDeclarationString {
+  NSMutableString *content = [NSMutableString string];
+  
+  for( StatecMethod *method in [self methods] ) {
+    if( [method isClassScope] ) {
+      [content appendString:[method declarationString]];
+    }
+  }
+  
+  return content;
+}
+
+
+- (NSString *)classMethodsDefinitionString {
+  NSMutableString *content = [NSMutableString string];
+  
+  for( StatecMethod *method in [self methods] ) {
+    if( [method isClassScope] ) {
+      [content appendString:[method definitionString]];
+    }
+  }
+  
+  return content;
 }
 
 
@@ -174,6 +198,7 @@
   
   [content appendFormat:@"@interface %@ : %@ {\n", [self name], [self baseClassName]];
   [content appendFormat:@"%@\n}\n", [self instanceVariablesDeclarationString]];
+  [content appendFormat:@"%@\n", [self classMethodsDeclarationString]];
   [content appendFormat:@"%@\n", [self propertiesDeclarationString]];
   [content appendFormat:@"%@\n", [self initializersDeclarationString]];
   [content appendFormat:@"%@\n", [self instanceMethodsDeclarationString]];
@@ -187,7 +212,7 @@
   NSMutableString *content = [NSMutableString string];
   
   [content appendFormat:@"@implementation %@\n", [self name], [self baseClassName]];
-  
+  [content appendFormat:@"%@\n", [self classMethodsDefinitionString]];
   [content appendFormat:@"%@\n", [self propertiesDefinitionString]];
   [content appendFormat:@"%@\n", [self initializersDefinitionString]];
   [content appendFormat:@"%@\n", [self instanceMethodsDefinitionString]];

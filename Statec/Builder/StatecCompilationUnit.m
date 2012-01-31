@@ -15,6 +15,7 @@
 @synthesize name = _name;
 @synthesize declarationImports = _declarationImports;
 @synthesize definitionImports = _definitionImports;
+@synthesize forwardDeclarations = _forwardDeclarations;
 @synthesize variables = _variables;
 @synthesize types = _types;
 @synthesize classes = _classes;
@@ -26,6 +27,7 @@
     _name = name;
     _declarationImports = [NSMutableArray arrayWithObject:@"<Foundation/Foundation.h>"];
     _definitionImports = [NSMutableArray arrayWithObject:[NSString stringWithFormat:@"%@.h",name]];
+    _forwardDeclarations = [NSMutableArray array];
     _variables = [NSMutableArray array];
     _classes = [NSMutableArray array];
     _types = [NSMutableArray array];
@@ -56,6 +58,11 @@
 
 - (void)addDefinitionImport:(NSString *)import {
   [[self definitionImports] addObject:import];
+}
+
+
+- (void)addForwardDeclaration:(NSString *)class {
+  [[self forwardDeclarations] addObject:class];
 }
 
 
@@ -95,6 +102,19 @@
 }
 
 
+- (NSString *)forwardDeclarationsString {
+  NSMutableString *content = [NSMutableString string];
+  
+  for( NSString *class in [self forwardDeclarations] ) {
+    [content appendFormat:@"@class %@;\n", class];
+  }
+  
+  [content appendString:@"\n"];
+  
+  return content;
+}
+
+
 - (NSString *)variablesDeclarationString {
   NSMutableString *content = [NSMutableString string];
   for( StatecVariable *variable in [self variables] ) {
@@ -121,6 +141,7 @@
   NSMutableString *content = [NSMutableString string];
   
   [content appendString:[self importStatementString:[self declarationImports]]];
+  [content appendString:[self forwardDeclarationsString]];
   
   [content appendString:[self variablesDeclarationString]];
   
