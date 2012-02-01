@@ -12,11 +12,14 @@
 @class StatecCompilationUnit;
 
 @interface StatecCompiler : NSObject {
-  StatecMachine *_machine;
 }
+
+@property (strong) StatecMachine *machine;
+@property (strong) StatecCompilationUnit *generatedUnit;
 
 - (id)initWithSource:(NSString *)source;
 
 - (StatecCompilationUnit *)generatedMachine;
+- (StatecCompilationUnit *)userMachine;
 
 @end

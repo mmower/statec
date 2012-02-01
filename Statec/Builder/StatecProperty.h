@@ -15,6 +15,9 @@
 @property (strong) NSString *type;
 @property (strong) NSString *name;
 
+- (id)initWithType:(NSString *)type name:(NSString *)name;
+- (id)initWithType:(NSString *)type name:(NSString *)name attribute:(NSString *)attribute;
+
 - (NSString *)declarationString;
 - (NSString *)definitionString;
 

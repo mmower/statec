@@ -12,6 +12,9 @@
 
 @implementation StatecCompiler
 
+@synthesize machine = _machine;
+@synthesize generatedUnit = _generatedUnit;
+
 
 - (id)initWithSource:(NSString *)source {
   self = [super init];
@@ -58,7 +61,7 @@
   [[method body] append:
    @"self = [super init];\n"
    @"if( self ) {\n"
-   @"%@ = %@\n"
+   @"%@ = %@;\n"
    @"%@ = dispatch_queue_create( %@, DISPATCH_QUEUE_SERIAL );\n"
    @"}\n"
    @"return self;\n",
@@ -75,7 +78,7 @@
 - (StatecMethod *)deallocQueueVariable:(StatecVariable *)queueVariable {
   StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"dealloc"];
   [[method body] append:
-   @"dispatch_queue_release( %@ );\n", [queueVariable name]
+   @"dispatch_release( %@ );\n", [queueVariable name]
    ];
   return method;
 }
@@ -125,6 +128,13 @@
 - (StatecClass *)stateClass:(StatecState *)state baseClass:(StatecClass *)baseClass machineClass:(StatecClass *)machineClass {
   StatecClass *stateClass = [[StatecClass alloc] initWithname:[NSString stringWithFormat:@"%@%@State",[_machine name],[[state name] capitalizedString]] baseClass:baseClass];
   
+  StatecMethod *initializer = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"id" selector:@selector(init)];
+  [[initializer body] append:
+   @"return [self initWithName:@\"%@\"];\n",
+   [state name]
+   ];
+  [stateClass addInitializer:initializer];
+  
   // For every event this state recognises define an event method
   // that traverses to the target state
   for( StatecEvent *event in [state events] ) {
@@ -159,12 +169,19 @@
   
   // Add the +initialize method to create the state subclasses
   [machineClass addMethod:[self classInitializer]];
-
+  
   // Add to the machine class an instance variable representing the current state
   StatecVariable *stateVariable = [[StatecVariable alloc] initWithScope:StatecInstanceScope 
                                                                    name:@"_currentState"
                                                                    type:[stateBaseClass pointerType]];
   [machineClass addVariable:stateVariable];
+  
+  StatecMethod *getStateMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:[stateBaseClass pointerType] selector:@selector(currentState)];
+  [[getStateMethod body] append:
+   @"return %@;\n",
+   [stateVariable name]
+   ];
+  [machineClass addMethod:getStateMethod];
   
   // Add to the machine class an instance variable represent a queue we will use to
   // serialize state changes
@@ -214,14 +231,29 @@
 }
 
 
-- (StatecCompilationUnit *)generatedMachine {
-  StatecCompilationUnit *unit = [[StatecCompilationUnit alloc] initWithName:[NSString stringWithFormat:@"_%@",[_machine name]]];
-  
+- (StatecClass *)stateBaseClass {
   // Create the base class <FooState> for the states
-  StatecClass *stateBaseClass = [[StatecClass alloc] initWithName:[NSString stringWithFormat:@"%@State",[_machine name]]];
-  [unit addClass:stateBaseClass];
+  StatecClass *class = [[StatecClass alloc] initWithName:[NSString stringWithFormat:@"%@State",[_machine name]]];
   
-  StatecClass *machineClass = [self machineClassWithStateBaseClass:stateBaseClass];
+  // Oay this is a cheat, i shouldn't be passing two strings separated by a , for attributes
+  [class addProperty:[[StatecProperty alloc] initWithType:@"NSString*" name:@"name" attribute:@"strong,readonly"]];
+  
+  StatecMethod *initializer = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"id" selector:@selector(initWithName:)];
+  [initializer addArgument:[[StatecArgument alloc] initWithType:@"NSString*" name:@"name"]];
+  [[initializer body] append:
+   @"self = [super init];\n"
+   @"if( self ) {\n"
+   @"  _name = name;\n"
+   @"}\n"
+   @"return self;\n"
+   ];
+  [class addMethod:initializer];
+  return class;
+}
+
+
+- (NSArray *)baseEventMethods:(StatecClass *)machineClass {
+  NSMutableArray *methods = [NSMutableArray array];
   
   // Now add to <Foo>State a method for each event that raises an exception if the event is
   // fired. Specific subclasses will override this with a method that handles the event if
@@ -229,9 +261,34 @@
   for( NSString *eventName in [_machine events] ) {
     StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"%@EventFromMachine:",[eventName lowercaseString]];
     [eventMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
-    [eventMethod setBody:[[StatecStatementGroup alloc] initWithFormat:@"[NSException raise:@\"StateMachineException\" format:@\"Illegal event '%@'!\"];",eventName]];
-    [stateBaseClass addMethod:eventMethod];
+    [[eventMethod body] append:
+     @"[NSException raise:@\"StateMachineException\" format:@\"Event '%@' is not legal in state '%%@'!\",[self name]];",
+     eventName
+     ];
+    [methods addObject:eventMethod];
   }
+
+  return methods;
+}
+
+
+- (StatecCompilationUnit *)generatedMachine {
+  StatecCompilationUnit *unit = [[StatecCompilationUnit alloc] initWithName:[NSString stringWithFormat:@"_%@",[_machine name]]];
+  
+  [unit setComment:[NSString stringWithFormat:
+   @"// This state machine file (_%@) was generated by Statec 0.1(0)\n"
+   @"// Copyright (c) 2012 Matt Mower <self@mattmower.com>\n"
+   @"// DO NOT EDIT THIS FILE - IT IS REGENERATED EVERY TIME STATEC IS RUN\n"
+   @"// ONLY MAKE CHANGES IN THE USER FILE %@. YOU HAVE BEEN WARNED\n",
+   [_machine name],
+   [_machine name]
+   ]];
+  
+  StatecClass *stateBaseClass = [self stateBaseClass];
+  [unit addClass:stateBaseClass];
+  
+  StatecClass *machineClass = [self machineClassWithStateBaseClass:stateBaseClass];
+  [stateBaseClass addMethods:[self baseEventMethods:machineClass]];
   
   // Add the generic enterFromMachine: method
   StatecMethod *enterMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(enterFromMachine:)];
@@ -254,6 +311,9 @@
   }
   
   [unit addClass:machineClass];
+  [unit setPrincipalClass:machineClass];
+  
+  _generatedUnit = unit;
   
   return unit;
 }
@@ -262,8 +322,11 @@
 - (StatecCompilationUnit *)userMachine {
   StatecCompilationUnit *unit = [[StatecCompilationUnit alloc] initWithName:[_machine name]];
   
+  [[unit declarationImports] addObject:[NSString stringWithFormat:@"_%@.h",[_machine name]]];
   
+  StatecClass *userClass = [[StatecClass alloc] initWithname:[NSString stringWithFormat:@"%@Machine",[_machine name]] baseClass:[[self generatedUnit] principalClass]];
   
+  [unit addClass:userClass];
   
   return unit;
 }

@@ -33,6 +33,15 @@
 }
 
 
+- (id)initWithType:(NSString *)type name:(NSString *)name attribute:(NSString *)attribute {
+  self = [self initWithType:type name:name];
+  if( self ) {
+    [_attributes addObject:attribute];
+  }
+  return self;
+}
+
+
 - (NSString *)attributesString {
   return [[self attributes] componentsJoinedByString:@","];
 }

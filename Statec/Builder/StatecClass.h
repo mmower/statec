@@ -10,6 +10,7 @@
 
 @class StatecMethod;
 @class StatecVariable;
+@class StatecProperty;
 
 @interface StatecClass : NSObject
 
@@ -29,6 +30,7 @@
 - (id)initWithname:(NSString *)name baseClass:(StatecClass *)baseClass;
 
 - (void)addVariable:(StatecVariable *)variable;
+- (void)addProperty:(StatecProperty *)property;
 - (void)addInitializer:(StatecMethod *)method;
 - (void)addMethod:(StatecMethod *)method;
 - (void)addMethods:(NSArray *)methods;

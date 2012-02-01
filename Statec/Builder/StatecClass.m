@@ -60,6 +60,11 @@
 }
 
 
+- (void)addProperty:(StatecProperty *)property {
+  [[self properties] addObject:property];
+}
+
+
 - (void)addInitializer:(StatecMethod *)method {
   [[self initializers] addObject:method];
 }

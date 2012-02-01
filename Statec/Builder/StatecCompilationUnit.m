@@ -13,18 +13,21 @@
 @implementation StatecCompilationUnit
 
 @synthesize name = _name;
+@synthesize comment = _comment;
 @synthesize declarationImports = _declarationImports;
 @synthesize definitionImports = _definitionImports;
 @synthesize forwardDeclarations = _forwardDeclarations;
 @synthesize variables = _variables;
 @synthesize types = _types;
 @synthesize classes = _classes;
+@synthesize principalClass = _principalClass;
 
 
 - (id)initWithName:(NSString *)name {
   self = [self init];
   if( self ) {
     _name = name;
+    _comment = @"";
     _declarationImports = [NSMutableArray arrayWithObject:@"<Foundation/Foundation.h>"];
     _definitionImports = [NSMutableArray arrayWithObject:[NSString stringWithFormat:@"%@.h",name]];
     _forwardDeclarations = [NSMutableArray array];
@@ -142,6 +145,10 @@
 - (NSString *)declarationsString {
   NSMutableString *content = [NSMutableString string];
   
+  if( ![[self comment] isEqualToString:@""] ) {
+    [content appendFormat:@"%@\n\n", [self comment]];
+  }
+  
   [content appendString:[self importStatementString:[self declarationImports]]];
   [content appendString:[self forwardDeclarationsString]];
   
@@ -160,6 +167,10 @@
 
 - (NSString *)definitionsString {
   NSMutableString *content = [NSMutableString string];
+
+  if( ![[self comment] isEqualToString:@""] ) {
+    [content appendFormat:@"%@\n\n", [self comment]];
+  }
   
   [content appendString:[self importStatementString:[self definitionImports]]];
   

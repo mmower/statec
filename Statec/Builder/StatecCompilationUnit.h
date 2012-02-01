@@ -15,12 +15,14 @@
 @interface StatecCompilationUnit : NSObject
 
 @property (strong) NSString *name;
+@property (strong) NSString *comment;
 @property (strong) NSMutableArray *declarationImports;
 @property (strong) NSMutableArray *definitionImports;
 @property (strong) NSMutableArray *forwardDeclarations;
 @property (strong) NSMutableArray *variables;
 @property (strong) NSMutableArray *types;
 @property (strong) NSMutableArray *classes;
+@property (strong) StatecClass *principalClass;
 
 - (id)initWithName:(NSString *)name;
 
