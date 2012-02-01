@@ -33,6 +33,9 @@
 - (void)addClass:(StatecClass *)class;
 - (void)addType:(StatecType *)type;
 
+- (NSString *)headerFileName;
+- (NSString *)classFileName;
+
 - (BOOL)writeDefinitions:(NSString *)path error:(NSError **)error;
 - (BOOL)writeDeclarations:(NSString *)path error:(NSError **)error;
 - (BOOL)writeFilesTo:(NSString *)folder error:(NSError **)error;

@@ -46,6 +46,13 @@ int main (int argc, const char * argv[])
     inputFile = [inputFile stringByExpandingTildeInPath];
     outputFolder = [outputFolder stringByExpandingTildeInPath];
     
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    BOOL isDirectory;
+    if( ![fileManager fileExistsAtPath:outputFolder isDirectory:&isDirectory] || !isDirectory ) {
+      NSLog( @"Output folder \"%@\" does not exist, or is not a directory", outputFolder );
+      return -1;
+    }
+
     NSString *source = [[NSString alloc] initWithContentsOfFile:inputFile encoding:NSUTF8StringEncoding error:&error];
     if( !source ) {
       NSLog( @"Cannot read source: \"%@\" %@", inputFile, [error localizedDescription] );
@@ -59,14 +66,15 @@ int main (int argc, const char * argv[])
       return -1;
     }
     
-    
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    if( ![fileManager fileExistsAtPath:[NSString stringWithFormat:@"%@.h",[[[compiler machine] name] capitalizedString]]] ) {
-      unit = [compiler userMachine];
+    unit = [compiler userMachine];
+    if( ![fileManager fileExistsAtPath:[outputFolder stringByAppendingPathComponent:[unit headerFileName]]] ) {
+      NSLog( @"No user file exists, writing user machine." );
       if( ![unit writeFilesTo:outputFolder error:&error] ) {
         NSLog( @"Cannot write class files %@", [error localizedDescription] );
         return -1;
       }
+    } else {
+      NSLog( @"User machine already exists." );
     }
   }
   

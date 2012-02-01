@@ -61,7 +61,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		C96CB49114D9B62400567A4C /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
 		C98F6BCF14D844520019E817 /* StatecConditionalStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecConditionalStatement.h; path = Builder/StatecConditionalStatement.h; sourceTree = "<group>"; };
 		C98F6BD014D844530019E817 /* StatecConditionalStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecConditionalStatement.m; path = Builder/StatecConditionalStatement.m; sourceTree = "<group>"; };
 		C9A743A514D6ECDE003E2DBA /* Statec */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Statec; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -172,7 +171,6 @@
 			isa = PBXGroup;
 			children = (
 				C9A743AF14D6ECDE003E2DBA /* Statec-Prefix.pch */,
-				C96CB49114D9B62400567A4C /* README */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
