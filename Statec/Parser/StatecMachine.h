@@ -17,4 +17,6 @@
 @property (strong) NSDictionary *states;
 @property (strong) NSDictionary *events;
 
+- (BOOL)validateMachine:(NSArray **)issues;
+
 @end

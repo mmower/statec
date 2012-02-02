@@ -19,6 +19,8 @@
 
 - (id)initWithSource:(NSString *)source;
 
+- (BOOL)validate:(NSArray **)issues;
+
 - (StatecCompilationUnit *)generatedMachine;
 - (StatecCompilationUnit *)userMachine;
 

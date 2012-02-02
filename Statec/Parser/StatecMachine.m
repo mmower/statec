@@ -51,6 +51,49 @@
 }
 
 
+- (NSArray *)validatesInitialStateIsDefined {
+  for( NSString *stateName in [self states] ) {
+    if( [stateName isEqualToString:[self initialState]] ) {
+      return [NSArray array];
+    }
+  }
+  
+  return [NSArray arrayWithObject:[NSString stringWithFormat:@"Initial state '%@' is not defined as a state", _initialState]];
+}
+
+
+- (NSArray *)validatesEventTransitions {
+  NSMutableArray *issues = [NSMutableArray array];
+  
+  for( NSString *eventName in [self events] ) {
+    for( StatecTransition *transition in [[self events] objectForKey:eventName] ) {
+      NSSet *matching = [[self states] keysOfEntriesPassingTest:^BOOL(id key, id state, BOOL *stop) {
+        return [[state name] isEqualToString:[[transition targetState] name]];
+      }];
+      
+      if( [matching count] < 1 ) {
+        [issues addObject:[NSString stringWithFormat:@"State '%@' declares event '%@' should transition to non-existent state", [[transition sourceState] name], eventName]];
+      }
+    }
+  }
+  
+  return issues;
+}
+
+
+- (BOOL)validateMachine:(NSArray **)issues {
+  NSMutableArray *issueList = [NSMutableArray array];
+  [issueList addObjectsFromArray:[self validatesInitialStateIsDefined]];
+  [issueList addObjectsFromArray:[self validatesEventTransitions]];
+  if( [issueList count] > 0 ) {
+    *issues = issueList;
+    return NO;
+  } else {
+    return YES;
+  }
+}
+
+
 
 
 @end

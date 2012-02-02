@@ -20,9 +20,7 @@ int main (int argc, const char * argv[])
     NSString *outputFolder;
     NSString *inputFile;
     
-    int bflag, ch;
-    
-    bflag = 0;
+    int ch;
     while( ( ch = getopt( argc, argv, "d:i:" ) ) != -1 ) {
       switch( ch ) {
           case 'd':
@@ -60,6 +58,16 @@ int main (int argc, const char * argv[])
     }
     
     StatecCompiler *compiler = [[StatecCompiler alloc] initWithSource:source];
+    
+    NSArray *issues;
+    if( ![compiler validate:&issues] ) {
+      NSLog( @"Machine definition is invalid:" );
+      for( NSString *issue in issues ) {
+        NSLog( @"\t%@", issue );
+      }
+      return -1;
+    }
+    
     StatecCompilationUnit *unit = [compiler generatedMachine];
     if( ![unit writeFilesTo:outputFolder error:&error] ) {
       NSLog( @"Cannot write class files: %@", [error localizedDescription] );

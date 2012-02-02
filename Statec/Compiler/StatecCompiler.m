@@ -29,6 +29,11 @@
 }
 
 
+- (BOOL)validate:(NSArray **)issues {
+  return [_machine validateMachine:issues];
+}
+
+
 /*
  Generate an initializer for the machine class that initializes a global instance of each of the state
  subclasses. Because they are stateless they can be shared by all instances of the machine.
