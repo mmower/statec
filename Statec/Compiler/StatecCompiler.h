@@ -19,7 +19,7 @@
 
 - (id)initWithSource:(NSString *)source;
 
-- (BOOL)validate:(NSArray **)issues;
+- (BOOL)isMachineValid:(NSArray **)issues;
 
 - (StatecCompilationUnit *)generatedMachine;
 - (StatecCompilationUnit *)userMachine;

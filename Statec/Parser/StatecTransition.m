@@ -14,14 +14,12 @@
 
 @synthesize sourceState = _sourceState;
 @synthesize targetState = _targetState;
-@synthesize event = _event;
 
-- (id)initWithSourceState:(StatecState *)sourceState targetState:(StatecState *)targetState viaEvent:(StatecEvent *)event {
+- (id)initWithSourceState:(StatecState *)sourceState targetState:(StatecState *)targetState {
   self = [super init];
   if( self ) {
     _sourceState = sourceState;
     _targetState = targetState;
-    _event = event;
   }
   return self;
 }

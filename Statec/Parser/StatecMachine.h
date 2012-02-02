@@ -10,13 +10,15 @@
 
 #import <CoreParse/CoreParse.h>
 
+@class StatecState;
+
 @interface StatecMachine : NSObject <CPParseResult>
 
 @property (strong) NSString *name;
-@property (strong) NSString *initialState;
+@property (strong) StatecState *initialState;
 @property (strong) NSDictionary *states;
 @property (strong) NSDictionary *events;
 
-- (BOOL)validateMachine:(NSArray **)issues;
+- (BOOL)isMachineValid:(NSArray **)issues;
 
 @end

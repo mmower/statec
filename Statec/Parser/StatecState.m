@@ -11,6 +11,9 @@
 #import "StatecEnter.h"
 #import "StatecExit.h"
 #import "StatecEvent.h"
+#import "StatecMachine.h"
+
+#import "NSString+StatecExtensions.h"
 
 @implementation StatecState
 
@@ -53,6 +56,26 @@
   }
   
   return NO;
+}
+
+
+- (NSString *)enterStateMethodName {
+  return [NSString stringWithFormat:@"enter%@State", [[self name] statecStringByCapitalisingFirstLetter]];
+}
+
+
+- (NSString *)exitStateMethodName {
+  return [NSString stringWithFormat:@"exit%@State", [[self name] statecStringByCapitalisingFirstLetter]];
+}
+
+
+- (NSString *)stateVariableName {
+  return [NSString stringWithFormat:@"_%@State", [[self name] statecStringByLoweringFirstLetter]];
+}
+
+
+- (NSString *)stateClassNameInMachine:(StatecMachine *)machine {
+  return [NSString stringWithFormat:@"%@%@State",[machine name],[[self name] statecStringByCapitalisingFirstLetter]];
 }
 
 @end

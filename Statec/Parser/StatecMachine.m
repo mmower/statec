@@ -22,7 +22,6 @@
   if( self ) {
     NSArray *children = [syntaxTree children];
     _name = [[children objectAtIndex:1] content];
-    _initialState = [[children objectAtIndex:3] name];
     
     NSArray *stateList = [children objectAtIndex:4];
     
@@ -31,19 +30,28 @@
       [_states setValue:state forKey:[state name]];
     }
     
+    _initialState = [_states objectForKey:[[children objectAtIndex:3] name]];
+    
     _events = [NSMutableDictionary dictionary];
     
     for( StatecState *state in stateList ) {
       for( StatecEvent *event in [state events] ) {
         
-        NSMutableArray *transitionList = [_events objectForKey:[event name]];
-        if( !transitionList ) {
-          transitionList = [NSMutableArray array];
-          [_events setValue:transitionList forKey:[event name]];
+        StatecEvent *globalEvent = [_events objectForKey:[event name]];
+        if( !globalEvent ) {
+          globalEvent = event;
+          [_events setValue:globalEvent forKey:[event name]];
         }
         
-        StatecTransition *transition = [[StatecTransition alloc] initWithSourceState:state targetState:[_states objectForKey:[event targetState]] viaEvent:event];
-        [transitionList addObject:transition];
+//        NSMutableArray *transitionList = [_events objectForKey:[event name]];
+//        if( !transitionList ) {
+//          transitionList = [NSMutableArray array];
+//          [_events setValue:transitionList forKey:[event name]];
+//        }
+        
+        StatecTransition *transition = [[StatecTransition alloc] initWithSourceState:state targetState:[_states objectForKey:[event targetState]]];
+        [[globalEvent transitions] addObject:transition];
+//        [transitionList addObject:transition];
       }
     }
   }
@@ -52,8 +60,8 @@
 
 
 - (NSArray *)validatesInitialStateIsDefined {
-  for( NSString *stateName in [self states] ) {
-    if( [stateName isEqualToString:[self initialState]] ) {
+  for( StatecState *state in [[self states] allValues] ) {
+    if( [[state name] isEqualToString:[[self initialState] name]] ) {
       return [NSArray array];
     }
   }
@@ -65,14 +73,14 @@
 - (NSArray *)validatesEventTransitions {
   NSMutableArray *issues = [NSMutableArray array];
   
-  for( NSString *eventName in [self events] ) {
-    for( StatecTransition *transition in [[self events] objectForKey:eventName] ) {
+  for( StatecEvent *event in [[self events] allValues] ) {
+    for( StatecTransition *transition in [event transitions] ) {
       NSSet *matching = [[self states] keysOfEntriesPassingTest:^BOOL(id key, id state, BOOL *stop) {
         return [[state name] isEqualToString:[[transition targetState] name]];
       }];
       
       if( [matching count] < 1 ) {
-        [issues addObject:[NSString stringWithFormat:@"State '%@' declares event '%@' should transition to non-existent state", [[transition sourceState] name], eventName]];
+        [issues addObject:[NSString stringWithFormat:@"State '%@' declares event '%@' should transition to non-existent state", [[transition sourceState] name], [event name]]];
       }
     }
   }
@@ -81,14 +89,16 @@
 }
 
 
-- (BOOL)validateMachine:(NSArray **)issues {
+- (BOOL)isMachineValid:(NSArray **)issues {
   NSMutableArray *issueList = [NSMutableArray array];
   [issueList addObjectsFromArray:[self validatesInitialStateIsDefined]];
   [issueList addObjectsFromArray:[self validatesEventTransitions]];
   if( [issueList count] > 0 ) {
     *issues = issueList;
+    NSLog( @"INVALID MACHINE" );
     return NO;
   } else {
+    NSLog( @"VALID MACHINE" );
     return YES;
   }
 }

@@ -20,14 +20,19 @@ int main (int argc, const char * argv[])
     NSString *outputFolder;
     NSString *inputFile;
     
+    BOOL overwriteUserFiles = NO;
+    
     int ch;
-    while( ( ch = getopt( argc, argv, "d:i:" ) ) != -1 ) {
+    while( ( ch = getopt( argc, argv, "d:i:o" ) ) != -1 ) {
       switch( ch ) {
           case 'd':
           outputFolder = [[NSString alloc] initWithUTF8String:optarg];
           break;
           case 'i':
           inputFile = [[NSString alloc] initWithUTF8String:optarg];
+          break;
+          case 'o':
+          overwriteUserFiles = YES;
           break;
       }
     }
@@ -58,10 +63,14 @@ int main (int argc, const char * argv[])
     }
     
     StatecCompiler *compiler = [[StatecCompiler alloc] initWithSource:source];
+    if( !compiler ) {
+      NSLog( @"Syntax error in input" );
+      return -1;
+    }
     
     NSArray *issues;
-    if( ![compiler validate:&issues] ) {
-      NSLog( @"Machine definition is invalid:" );
+    if( ![compiler isMachineValid:&issues] ) {
+      NSLog( @"Machine definition is invalid (%ld issues):", [issues count] );
       for( NSString *issue in issues ) {
         NSLog( @"\t%@", issue );
       }
@@ -75,7 +84,7 @@ int main (int argc, const char * argv[])
     }
     
     unit = [compiler userMachine];
-    if( ![fileManager fileExistsAtPath:[outputFolder stringByAppendingPathComponent:[unit headerFileName]]] ) {
+    if( overwriteUserFiles || ![fileManager fileExistsAtPath:[outputFolder stringByAppendingPathComponent:[unit headerFileName]]] ) {
       NSLog( @"No user file exists, writing user machine." );
       if( ![unit writeFilesTo:outputFolder error:&error] ) {
         NSLog( @"Cannot write class files %@", [error localizedDescription] );

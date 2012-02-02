@@ -15,5 +15,9 @@
 
 @property (strong) NSString *name;
 @property (strong) NSString *targetState;
+@property (strong) NSMutableArray *transitions;
+
+- (NSString *)callbackMethodName;
+- (NSString *)internalCallbackMethodName;
 
 @end

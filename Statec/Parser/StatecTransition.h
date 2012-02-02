@@ -15,8 +15,7 @@
 
 @property (strong) StatecState *sourceState;
 @property (strong) StatecState *targetState;
-@property (strong) StatecEvent *event;
 
-- (id)initWithSourceState:(StatecState *)sourceState targetState:(StatecState *)targetState viaEvent:(StatecEvent *)event;
+- (id)initWithSourceState:(StatecState *)sourceState targetState:(StatecState *)targetState;
 
 @end

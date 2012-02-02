@@ -10,6 +10,8 @@
 
 #import <CoreParse/CoreParse.h>
 
+@class StatecMachine;
+
 
 @interface StatecState : NSObject <CPParseResult>
 
@@ -19,5 +21,12 @@
 @property (strong,readonly) NSArray *events;
 
 - (BOOL)respondsToEventName:(NSString *)eventName;
+
+- (NSString *)enterStateMethodName;
+- (NSString *)exitStateMethodName;
+
+- (NSString *)stateVariableName;
+
+- (NSString *)stateClassNameInMachine:(StatecMachine *)machine;
 
 @end

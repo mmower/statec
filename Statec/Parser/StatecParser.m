@@ -26,6 +26,8 @@
   [tokenizer addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"@enter"]];
   [tokenizer addTokenRecogniser:[CPKeywordRecogniser recogniserForKeyword:@"@exit"]];
   [tokenizer addTokenRecogniser:[CPQuotedRecogniser quotedRecogniserWithStartQuote:@"\"" endQuote:@"\"" name:@"String"]];
+  [tokenizer addTokenRecogniser:[CPQuotedRecogniser quotedRecogniserWithStartQuote:@"/*" endQuote:@"*/" name:@"Comment"]];
+  [tokenizer addTokenRecogniser:[CPQuotedRecogniser quotedRecogniserWithStartQuote:@"//" endQuote:@"\n" name:@"Comment"]];
   [tokenizer addTokenRecogniser:[CPWhiteSpaceRecogniser whiteSpaceRecogniser]];
   
   [tokenizer setDelegate:self];
@@ -40,7 +42,7 @@
 
 
 - (NSArray *)tokeniser:(CPTokeniser *)tokeniser willProduceToken:(CPToken *)token {
-  if( [token isKindOfClass:[CPWhiteSpaceToken class]] ) {
+  if( [token isKindOfClass:[CPWhiteSpaceToken class]] || [[token name] isEqualToString:@"Comment"] ) {
     return [NSArray array];
   } else {
     return [NSArray arrayWithObject:token];

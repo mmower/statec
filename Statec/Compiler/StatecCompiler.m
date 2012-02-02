@@ -10,6 +10,8 @@
 
 #import "Statec.h"
 
+#import "NSString+StatecExtensions.h"
+
 @implementation StatecCompiler
 
 @synthesize machine = _machine;
@@ -29,8 +31,8 @@
 }
 
 
-- (BOOL)validate:(NSArray **)issues {
-  return [_machine validateMachine:issues];
+- (BOOL)isMachineValid:(NSArray **)issues {
+  return [_machine isMachineValid:issues];
 }
 
 
@@ -45,8 +47,8 @@
    @"static dispatch_once_t onceToken;\n"
    @"dispatch_once(&onceToken, ^{\n"];
   
-  for( NSString *stateName in [_machine states] ) {
-    [[method body] append:@"_%@State = [[%@%@State alloc] init];\n", [stateName lowercaseString], [_machine name], [stateName capitalizedString]];
+  for( StatecState *state in [[_machine states] allValues] ) {
+    [[method body] append:@"%@ = [[%@ alloc] init];\n", [state stateVariableName], [state stateClassNameInMachine:_machine]];
   }
   
   [[method body] append:
@@ -71,7 +73,8 @@
    @"}\n"
    @"return self;\n",
    [stateVariable name],
-   [NSString stringWithFormat:@"_%@State",[[_machine initialState] lowercaseString]],
+   [[_machine initialState] stateVariableName],
+//   [NSString stringWithFormat:@"_%@State",[[_machine initialState] lowercaseString]],
    [queueVariable name],
    [NSString stringWithFormat:@"[[NSString stringWithFormat:@\"%@Machine.%%p\",self] UTF8String]",[_machine name]]
    ];
@@ -95,14 +98,14 @@
  The method tests whether the current state class can respond to this event. If it can then the event is passed
  on to the current state class. Otherwise an exception is raised to report the illegal attempted transition.
  */
-- (StatecMethod *)eventMethodForEvent:(NSString *)event state:(StatecVariable *)state withTransitions:(NSArray *)transitions {
-  SEL selector = NSSelectorFromString([NSString stringWithFormat:@"%@Event",[event lowercaseString]]);
+- (StatecMethod *)eventMethodForEvent:(StatecEvent *)event state:(StatecVariable *)state {
+  SEL selector = NSSelectorFromString([NSString stringWithFormat:[event callbackMethodName]]);
   
   StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope 
                                                   returnType:@"void" 
                                                     selector:selector];
   
-  NSString *stateMethodName = [NSString stringWithFormat:@"%@EventFromMachine:",[event lowercaseString]];
+  NSString *stateMethodName = [NSString stringWithFormat:[event internalCallbackMethodName]];
   [[method body] append:
    @"[%@ %@self];", [state name], stateMethodName
    ];
@@ -119,9 +122,8 @@
 - (NSArray *)eventMethods:(StatecVariable *)stateVariable {
   NSMutableArray *methods = [NSMutableArray array];
   for( NSString *eventName in [_machine events] ) {
-    [methods addObject:[self eventMethodForEvent:eventName 
-                                           state:stateVariable
-                                 withTransitions:[[_machine events] objectForKey:eventName]]];
+    [methods addObject:[self eventMethodForEvent:[[_machine events] objectForKey:eventName] 
+                                           state:stateVariable]];
   }
   return methods;
 }
@@ -131,7 +133,7 @@
  Generate a subclass of <Foo>State to represent a concrete state in <Foo>Machine.
  */
 - (StatecClass *)stateClass:(StatecState *)state baseClass:(StatecClass *)baseClass machineClass:(StatecClass *)machineClass {
-  StatecClass *stateClass = [[StatecClass alloc] initWithname:[NSString stringWithFormat:@"%@%@State",[_machine name],[[state name] capitalizedString]] baseClass:baseClass];
+  StatecClass *stateClass = [[StatecClass alloc] initWithname:[state stateClassNameInMachine:_machine] baseClass:baseClass];
   
   StatecMethod *initializer = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"id" selector:@selector(init)];
   [[initializer body] append:
@@ -143,13 +145,15 @@
   // For every event this state recognises define an event method
   // that traverses to the target state
   for( StatecEvent *event in [state events] ) {
-    StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"%@EventFromMachine:",[[event name] lowercaseString]];
+    StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:[event internalCallbackMethodName]];
     [eventMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
     [[eventMethod body] append:@" NSLog( @\"Respond to event: %@\" ); \n ", [event name]];
     if( [state wantsExit] ) {
-      [[eventMethod body] append:@"[machine exit%@State];\n", [[state name] capitalizedString]];
+      [[eventMethod body] append:@"[machine %@];\n", [state exitStateMethodName]];
     }
-    [[eventMethod body] append:@"[machine transitionToState:_%@State];\n", [[event targetState] lowercaseString]];
+    
+    StatecState *targetState = [[_machine states] objectForKey:[event targetState]];
+    [[eventMethod body] append:@"[machine transitionToState:%@];\n", [targetState stateVariableName]];
     [stateClass addMethod:eventMethod];
   }
   
@@ -157,7 +161,7 @@
     StatecMethod *enterMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(enterFromMachine:)];
     [enterMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
     [[enterMethod body] append:
-     @"[machine enter%@State];\n", [[state name] capitalizedString]
+     @"[machine %@];\n", [state enterStateMethodName]
      ];
     [stateClass addMethod:enterMethod];
   }
@@ -209,12 +213,12 @@
   for( NSString *stateName in [_machine states] ) {
     StatecState *state = [[_machine states] objectForKey:stateName];
     if( [state wantsEnter] ) {
-      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"enter%@State",[[state name] capitalizedString]];
+      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:[state enterStateMethodName]];
       [method setBody:[[StatecStatementGroup alloc] initWithFormat:@"// Override in user machine subclass"]];
       [machineClass addMethod:method];
     }
     if( [state wantsExit] ) {
-      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"exit%@State",[[state name] capitalizedString]];
+      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:[state exitStateMethodName]];
       [method setBody:[[StatecStatementGroup alloc] initWithFormat:@"// Override in user machine subclass"]];
       [machineClass addMethod:method];
     }
@@ -263,12 +267,12 @@
   // Now add to <Foo>State a method for each event that raises an exception if the event is
   // fired. Specific subclasses will override this with a method that handles the event if
   // the state recognises that event.
-  for( NSString *eventName in [_machine events] ) {
-    StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"%@EventFromMachine:",[eventName lowercaseString]];
+  for( StatecEvent *event in [[_machine events] allValues] ) {
+    StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:[event internalCallbackMethodName]];
     [eventMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
     [[eventMethod body] append:
      @"[NSException raise:@\"StateMachineException\" format:@\"Event '%@' is not legal in state '%%@'!\",[self name]];",
-     eventName
+     [event name]
      ];
     [methods addObject:eventMethod];
   }
@@ -306,11 +310,10 @@
   
   // For each state in the machine make a state subclass and create a global
   // pointer for a staticly allocated instance of the class
-  for( NSString *stateName in [_machine states] ) {
-    StatecState *state = [[_machine states] objectForKey:stateName];
+  for( StatecState *state in [[_machine states] allValues] ) {
     [unit addClass:[self stateClass:state baseClass:stateBaseClass machineClass:machineClass]];
     StatecVariable *stateGlobalVariable = [[StatecVariable alloc] initWithScope:StatecGlobalScope|StatecStaticScope
-                                                                           name:[NSString stringWithFormat:@"_%@State",[stateName lowercaseString]] 
+                                                                           name:[state stateVariableName]
                                                                            type:[stateBaseClass pointerType]];
     [unit addVariable:stateGlobalVariable];
   }
@@ -337,7 +340,8 @@
   
   [unit setComment:commentString];
   
-  [[unit declarationImports] addObject:[NSString stringWithFormat:@"_%@.h",[_machine name]]];
+  // Import the generated machine into the user machine
+  [[unit declarationImports] addObject:[NSString stringWithFormat:@"_%@Machine.h",[_machine name]]];
   
   StatecClass *userClass = [[StatecClass alloc] initWithname:[NSString stringWithFormat:@"%@Machine",[_machine name]] baseClass:[[self generatedUnit] principalClass]];
   
@@ -345,12 +349,12 @@
   for( NSString *stateName in [_machine states] ) {
     StatecState *state = [[_machine states] objectForKey:stateName];
     if( [state wantsEnter] ) {
-      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"enter%@State",[[state name] capitalizedString]];
+      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:[state enterStateMethodName]];
       [method setBody:[[StatecStatementGroup alloc] initWithFormat:@"// Your code here"]];
       [userClass addMethod:method];
     }
     if( [state wantsExit] ) {
-      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:@"exit%@State",[[state name] capitalizedString]];
+      StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:[state exitStateMethodName]];
       [method setBody:[[StatecStatementGroup alloc] initWithFormat:@"// Your code here"]];
       [userClass addMethod:method];
     }
