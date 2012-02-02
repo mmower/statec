@@ -61,12 +61,14 @@ The current behaviour is to raise an exception when an event is invoked that is 
 
 The statec command line tool requires the CoreParse.framework be installed in /Library/Frameworks.
 
-The statec command line tool has two arguments:
+The statec command line tool has three arguments:
 
 * -i &lt;machine file&gt; 
 	* e.g. trafficlight.smd
 * -d &lt;target folder&gt;
 	* e.g. ~/Projects/TrafficLightSim/
+* -g
+	* Generate a GraphViz digraph of the machine and, if the `dot` command is available convert it into a PNG image.
 
 The generated files should be added to your Xcode project. The *\_&lt;Name&gt;Machine.m* file should not be edited as this will be regenerated every time the statec command is generated. The *&lt;Name&gt;Machine.m* is intended for the user to edit and will not be regenerated if it exists.
 
