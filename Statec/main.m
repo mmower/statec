@@ -12,6 +12,8 @@
 
 #import "Statec.h"
 
+#import "StatecGVBuilder.h"
+
 int main (int argc, const char * argv[])
 {
   @autoreleasepool {
@@ -20,10 +22,10 @@ int main (int argc, const char * argv[])
     NSString *outputFolder;
     NSString *inputFile;
     
-    BOOL overwriteUserFiles = NO;
+    BOOL overwriteUserFiles = NO, generateGraph = NO;
     
     int ch;
-    while( ( ch = getopt( argc, argv, "d:i:o" ) ) != -1 ) {
+    while( ( ch = getopt( argc, argv, "d:i:og" ) ) != -1 ) {
       switch( ch ) {
           case 'd':
           outputFolder = [[NSString alloc] initWithUTF8String:optarg];
@@ -33,6 +35,9 @@ int main (int argc, const char * argv[])
           break;
           case 'o':
           overwriteUserFiles = YES;
+          break;
+          case 'g':
+          generateGraph = YES;
           break;
       }
     }
@@ -93,6 +98,28 @@ int main (int argc, const char * argv[])
     } else {
       NSLog( @"User machine already exists." );
     }
+    
+    if( generateGraph ) {
+      NSString *graphFileName = [outputFolder stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.gv",[[compiler machine] name]]];
+      StatecGVBuilder *gvBuilder = [[StatecGVBuilder alloc] init];
+      NSString *gvSource = [gvBuilder gvSourceFromMachine:[compiler machine]];
+      [gvSource writeToFile:graphFileName
+                 atomically:NO 
+                   encoding:NSUTF8StringEncoding error:nil];
+      
+      
+      NSString *pathEnv = [[[NSProcessInfo processInfo] environment] objectForKey:@"PATH"];
+      NSArray *paths = [pathEnv componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@":"]];
+      for( NSString *path in paths ) {
+        if( [fileManager fileExistsAtPath:[path stringByAppendingPathComponent:@"dot"]] ) {
+          NSLog( @"Generating image file" );
+          NSTask *dotTask = [NSTask launchedTaskWithLaunchPath:[path stringByAppendingPathComponent:@"dot"]
+                                                     arguments:[NSArray arrayWithObjects:@"-O",@"-Tpng",graphFileName,nil]];
+          [dotTask waitUntilExit];
+        }
+      }
+    }
+    
   }
   
   return 0;
