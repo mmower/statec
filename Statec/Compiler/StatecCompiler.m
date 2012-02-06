@@ -74,7 +74,6 @@
    @"return self;\n",
    [stateVariable name],
    [[_machine initialState] stateVariableName],
-//   [NSString stringWithFormat:@"_%@State",[[_machine initialState] lowercaseString]],
    [queueVariable name],
    [NSString stringWithFormat:@"[[NSString stringWithFormat:@\"%@Machine.%%p\",self] UTF8String]",[_machine name]]
    ];
@@ -98,7 +97,7 @@
  The method tests whether the current state class can respond to this event. If it can then the event is passed
  on to the current state class. Otherwise an exception is raised to report the illegal attempted transition.
  */
-- (StatecMethod *)eventMethodForEvent:(StatecEvent *)event state:(StatecVariable *)state {
+- (StatecMethod *)eventMethodForEvent:(StatecEvent *)event state:(StatecVariable *)state queue:(StatecVariable *)queue {
   SEL selector = NSSelectorFromString([NSString stringWithFormat:[event callbackMethodName]]);
   
   StatecMethod *method = [[StatecMethod alloc] initWithScope:StatecInstanceScope 
@@ -107,7 +106,12 @@
   
   NSString *stateMethodName = [NSString stringWithFormat:[event internalCallbackMethodName]];
   [[method body] append:
-   @"[%@ %@self];", [state name], stateMethodName
+   @"dispatch_async( %@, ^{\n"
+   @"  [%@ %@self];"
+   @"});\n",
+   [queue name],
+   [state name],
+   stateMethodName
    ];
   
   return method;
@@ -119,11 +123,12 @@
  
  A method for every event (across all states) is added here.
  */
-- (NSArray *)eventMethods:(StatecVariable *)stateVariable {
+- (NSArray *)eventMethods:(StatecVariable *)stateVariable queueVariable:(StatecVariable *)queueVariable {
   NSMutableArray *methods = [NSMutableArray array];
   for( NSString *eventName in [_machine events] ) {
     [methods addObject:[self eventMethodForEvent:[[_machine events] objectForKey:eventName] 
-                                           state:stateVariable]];
+                                           state:stateVariable
+                                           queue:queueVariable]];
   }
   return methods;
 }
@@ -195,7 +200,7 @@
   // Add to the machine class an instance variable represent a queue we will use to
   // serialize state changes
   StatecVariable *queueVariable = [[StatecVariable alloc] initWithScope:StatecInstanceScope
-                                                                   name:@"_lock" 
+                                                                   name:@"_queue" 
                                                                    type:@"dispatch_queue_t"];
   [machineClass addVariable:queueVariable];
 
@@ -206,7 +211,7 @@
   [machineClass addMethod:[self deallocQueueVariable:queueVariable]];
   
   // Add an event method, for all events, to the machine class
-  [machineClass addMethods:[self eventMethods:stateVariable]];
+  [machineClass addMethods:[self eventMethods:stateVariable queueVariable:queueVariable]];
   
   // For every state that wanted enter notification we provide a callback that can be overridden
   // by the user state machine class
@@ -227,7 +232,7 @@
   StatecMethod *transitionMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(transitionToState:)];
   [transitionMethod addArgument:[[StatecArgument alloc] initWithType:[stateBaseClass pointerType] name:@"state"]];
   [[transitionMethod body] append:
-   @"dispatch_sync( %@, ^{\n"
+   @"dispatch_async( %@, ^{\n"
    @"%@ = state;\n"
    @"[state enterFromMachine:self];\n"
    @"});\n",
@@ -239,7 +244,10 @@
   return machineClass;
 }
 
-
+/*
+ Generate a class model for <Machine>State which acts as a base-class for all the machine specific
+ state classes.
+ */
 - (StatecClass *)stateBaseClass {
   // Create the base class <FooState> for the states
   StatecClass *class = [[StatecClass alloc] initWithName:[NSString stringWithFormat:@"%@State",[_machine name]]];
@@ -257,10 +265,17 @@
    @"return self;\n"
    ];
   [class addMethod:initializer];
+  
   return class;
 }
 
-
+/*
+ Generates an array of methods that will be added to the <Machine>State base-class to represent the events
+ in the machine. The base class implements all events to provide a consistent interface that the machine
+ can call. A default implementation is provided that raises an exception. It is expected that each state
+ specific subclass will override this implementation for events legal for that state and, instead, cause
+ the machine to transition to a new state.
+ */
 - (NSArray *)baseEventMethods:(StatecClass *)machineClass {
   NSMutableArray *methods = [NSMutableArray array];
   
