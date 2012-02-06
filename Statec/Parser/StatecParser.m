@@ -55,7 +55,7 @@
                                          backusNaurForm:
                         @"0 StatecMachine     ::= \"@machine\" \"String\" \"{\" <StatecInitial> <StatecState>+ \"}\" ;" 
                         @"1 StatecInitial     ::= \"@initial\" \"String\" ;"
-                        @"2 StatecState       ::= \"@state\" \"String\" \"{\" <StatecEnter>? <StatecExit>? <StatecEvent>+ \"}\" ;"
+                        @"2 StatecState       ::= \"@state\" \"String\" \"{\" <StatecEnter>? <StatecExit>? <StatecEvent>* \"}\" ;"
                         @"3 StatecEnter       ::= \"@enter\" ;"
                         @"4 StatecExit        ::= \"@exit\" ;"
                         @"5 StatecEvent       ::= \"@event\" \"String\" \"=>\" \"String\" ;"];
@@ -65,7 +65,7 @@
 
 
 - (CPParser *)parser {
-  return [CPSLRParser parserWithGrammar:[self grammar]];
+  return [CPLALR1Parser parserWithGrammar:[self grammar]];
 }
 
 
