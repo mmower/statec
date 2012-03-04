@@ -13,6 +13,7 @@
 #import "Statec.h"
 
 #import "StatecGVBuilder.h"
+#import "StatecHTMLBuilder.h"
 
 int main (int argc, const char * argv[])
 {
@@ -22,10 +23,10 @@ int main (int argc, const char * argv[])
     NSString *outputFolder;
     NSString *inputFile;
     
-    BOOL overwriteUserFiles = NO, generateGraph = NO;
+    BOOL overwriteUserFiles = NO, generateGraph = NO, generateHTML = NO;
     
     int ch;
-    while( ( ch = getopt( argc, argv, "d:i:og" ) ) != -1 ) {
+    while( ( ch = getopt( argc, (char *const*)argv, "d:i:ogh" ) ) != -1 ) {
       switch( ch ) {
           case 'd':
           outputFolder = [[NSString alloc] initWithUTF8String:optarg];
@@ -38,6 +39,9 @@ int main (int argc, const char * argv[])
           break;
           case 'g':
           generateGraph = YES;
+          break;
+          case 'h':
+          generateHTML = YES;
           break;
       }
     }
@@ -67,9 +71,14 @@ int main (int argc, const char * argv[])
       return -1;
     }
     
-    StatecCompiler *compiler = [[StatecCompiler alloc] initWithSource:source];
+    StatecCompiler *compiler = [[StatecCompiler alloc] init];
     if( !compiler ) {
-      NSLog( @"Syntax error in input" );
+      NSLog( @"Cannot initialize compiler" );
+      return -1;
+    }
+    
+    if( ![compiler parse:source] ) {
+      NSLog( @"Compiler error" );
       return -1;
     }
     
@@ -117,6 +126,13 @@ int main (int argc, const char * argv[])
                                                      arguments:[NSArray arrayWithObjects:@"-O",@"-Tpng",graphFileName,nil]];
           [dotTask waitUntilExit];
         }
+      }
+    }
+    
+    if( generateHTML ) {
+      StatecHTMLBuilder *htmlBuilder = [[StatecHTMLBuilder alloc] initWithMachine:[compiler machine]];
+      if( ![htmlBuilder writeToFolder:outputFolder error:&error] ) {
+        NSLog( @"Error writing HTML output: %@", [error localizedDescription] );
       }
     }
     

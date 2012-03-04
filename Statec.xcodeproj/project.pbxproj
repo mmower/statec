@@ -7,12 +7,37 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C93DC584150296B400007F09 /* StatecCompiler.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743F214D774FC003E2DBA /* StatecCompiler.m */; };
+		C93DC5861502971200007F09 /* StatecParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743BE14D6ED3A003E2DBA /* StatecParser.m */; };
+		C93DC5871502972A00007F09 /* StatecClass.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743C714D6EE25003E2DBA /* StatecClass.m */; };
+		C93DC5881502972A00007F09 /* StatecMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743CD14D6F178003E2DBA /* StatecMethod.m */; };
+		C93DC5891502972A00007F09 /* StatecVariable.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D014D6F189003E2DBA /* StatecVariable.m */; };
+		C93DC58A1502972A00007F09 /* StatecProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D314D6F210003E2DBA /* StatecProperty.m */; };
+		C93DC58B1502972A00007F09 /* StatecArgument.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743D714D7326E003E2DBA /* StatecArgument.m */; };
+		C93DC58C1502972A00007F09 /* StatecTypedef.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743F814D802E1003E2DBA /* StatecTypedef.m */; };
+		C93DC58D1502972A00007F09 /* StatecEnumeration.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743FB14D805C6003E2DBA /* StatecEnumeration.m */; };
+		C93DC58E1502972A00007F09 /* StatecType.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743FE14D807A1003E2DBA /* StatecType.m */; };
+		C93DC58F1502972A00007F09 /* StatecCompilationUnit.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440114D8096A003E2DBA /* StatecCompilationUnit.m */; };
+		C93DC5901502972A00007F09 /* StatecCodeStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440414D826E3003E2DBA /* StatecCodeStatement.m */; };
+		C93DC5911502972A00007F09 /* StatecStatementGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440714D8282F003E2DBA /* StatecStatementGroup.m */; };
+		C93DC5921502972A00007F09 /* StatecStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440A14D82897003E2DBA /* StatecStatement.m */; };
+		C93DC5931502972A00007F09 /* StatecConditionalStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C98F6BD014D844530019E817 /* StatecConditionalStatement.m */; };
+		C93DC5941502972A00007F09 /* StatecGVBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED4AC314DB14C60044BE00 /* StatecGVBuilder.m */; };
+		C93DC5951502972A00007F09 /* StatecHTMLBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED4AC914DB25090044BE00 /* StatecHTMLBuilder.m */; };
+		C93DC5961502973400007F09 /* NSString+StatecExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED4ABD14DAF2620044BE00 /* NSString+StatecExtensions.m */; };
+		C93DC5971502974100007F09 /* StatecMachine.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743DF14D765AC003E2DBA /* StatecMachine.m */; };
+		C93DC5981502974100007F09 /* StatecInitial.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743E214D76BF2003E2DBA /* StatecInitial.m */; };
+		C93DC5991502974100007F09 /* StatecState.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743E514D76C02003E2DBA /* StatecState.m */; };
+		C93DC59A1502974100007F09 /* StatecEnter.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743E814D76C13003E2DBA /* StatecEnter.m */; };
+		C93DC59B1502974100007F09 /* StatecExit.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743EB14D76C22003E2DBA /* StatecExit.m */; };
+		C93DC59C1502974100007F09 /* StatecEvent.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743EE14D76C2E003E2DBA /* StatecEvent.m */; };
+		C93DC59D1502974100007F09 /* StatecTransition.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743F514D77826003E2DBA /* StatecTransition.m */; };
+		C94349871503983000705EB0 /* CoreParse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94349861503983000705EB0 /* CoreParse.framework */; };
+		C94349881503983600705EB0 /* CoreParse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C94349861503983000705EB0 /* CoreParse.framework */; };
 		C98F6BD114D844530019E817 /* StatecConditionalStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C98F6BD014D844530019E817 /* StatecConditionalStatement.m */; };
 		C9A743AA14D6ECDE003E2DBA /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A743A914D6ECDE003E2DBA /* Foundation.framework */; };
 		C9A743AD14D6ECDE003E2DBA /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743AC14D6ECDE003E2DBA /* main.m */; };
 		C9A743B114D6ECDE003E2DBA /* Statec.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = C9A743B014D6ECDE003E2DBA /* Statec.1 */; };
-		C9A743B814D6ECF2003E2DBA /* CoreParse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9A743B714D6ECF2003E2DBA /* CoreParse.framework */; };
-		C9A743BA14D6ED04003E2DBA /* CoreParse.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = C9A743B714D6ECF2003E2DBA /* CoreParse.framework */; };
 		C9A743BF14D6ED3A003E2DBA /* StatecParser.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743BE14D6ED3A003E2DBA /* StatecParser.m */; };
 		C9A743C814D6EE25003E2DBA /* StatecClass.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743C714D6EE25003E2DBA /* StatecClass.m */; };
 		C9A743CE14D6F178003E2DBA /* StatecMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A743CD14D6F178003E2DBA /* StatecMethod.m */; };
@@ -34,7 +59,26 @@
 		C9A7440514D826E4003E2DBA /* StatecCodeStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440414D826E3003E2DBA /* StatecCodeStatement.m */; };
 		C9A7440814D82830003E2DBA /* StatecStatementGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440714D8282F003E2DBA /* StatecStatementGroup.m */; };
 		C9A7440B14D82897003E2DBA /* StatecStatement.m in Sources */ = {isa = PBXBuildFile; fileRef = C9A7440A14D82897003E2DBA /* StatecStatement.m */; };
+		C9ED4A9414DACD7D0044BE00 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C9ED4A9314DACD7D0044BE00 /* Cocoa.framework */; };
+		C9ED4A9E14DACD7D0044BE00 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = C9ED4A9C14DACD7D0044BE00 /* InfoPlist.strings */; };
+		C9ED4AA014DACD7D0044BE00 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED4A9F14DACD7D0044BE00 /* main.m */; };
+		C9ED4AA414DACD7D0044BE00 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = C9ED4AA214DACD7D0044BE00 /* Credits.rtf */; };
+		C9ED4AA714DACD7D0044BE00 /* StatecAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED4AA614DACD7D0044BE00 /* StatecAppDelegate.m */; };
+		C9ED4AAA14DACD7D0044BE00 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = C9ED4AA814DACD7D0044BE00 /* MainMenu.xib */; };
+		C9ED4ABE14DAF2620044BE00 /* NSString+StatecExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED4ABD14DAF2620044BE00 /* NSString+StatecExtensions.m */; };
+		C9ED4AC414DB14C60044BE00 /* StatecGVBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED4AC314DB14C60044BE00 /* StatecGVBuilder.m */; };
+		C9ED4ACA14DB25090044BE00 /* StatecHTMLBuilder.m in Sources */ = {isa = PBXBuildFile; fileRef = C9ED4AC914DB25090044BE00 /* StatecHTMLBuilder.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		C9ED4AAF14DACD8C0044BE00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C9A7439C14D6ECDE003E2DBA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = C9A743A414D6ECDE003E2DBA;
+			remoteInfo = Statec;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		C9A743A314D6ECDE003E2DBA /* CopyFiles */ = {
@@ -53,14 +97,33 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				C9A743BA14D6ED04003E2DBA /* CoreParse.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9ED4AB114DACDC40044BE00 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9ED4AB314DACDE60044BE00 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 7;
+			files = (
+			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C94349861503983000705EB0 /* CoreParse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreParse.framework; path = Library/Frameworks/CoreParse.framework; sourceTree = SDKROOT; };
 		C98F6BCF14D844520019E817 /* StatecConditionalStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecConditionalStatement.h; path = Builder/StatecConditionalStatement.h; sourceTree = "<group>"; };
 		C98F6BD014D844530019E817 /* StatecConditionalStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecConditionalStatement.m; path = Builder/StatecConditionalStatement.m; sourceTree = "<group>"; };
 		C9A743A514D6ECDE003E2DBA /* Statec */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Statec; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -68,7 +131,6 @@
 		C9A743AC14D6ECDE003E2DBA /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		C9A743AF14D6ECDE003E2DBA /* Statec-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Statec-Prefix.pch"; sourceTree = "<group>"; };
 		C9A743B014D6ECDE003E2DBA /* Statec.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = Statec.1; sourceTree = "<group>"; };
-		C9A743B714D6ECF2003E2DBA /* CoreParse.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CoreParse.framework; sourceTree = "<group>"; };
 		C9A743BD14D6ED3A003E2DBA /* StatecParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecParser.h; path = Parser/StatecParser.h; sourceTree = "<group>"; };
 		C9A743BE14D6ED3A003E2DBA /* StatecParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecParser.m; path = Parser/StatecParser.m; sourceTree = "<group>"; };
 		C9A743C614D6EE25003E2DBA /* StatecClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecClass.h; path = Builder/StatecClass.h; sourceTree = "<group>"; };
@@ -112,6 +174,25 @@
 		C9A7440714D8282F003E2DBA /* StatecStatementGroup.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecStatementGroup.m; path = Builder/StatecStatementGroup.m; sourceTree = "<group>"; };
 		C9A7440914D82896003E2DBA /* StatecStatement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecStatement.h; path = Builder/StatecStatement.h; sourceTree = "<group>"; };
 		C9A7440A14D82897003E2DBA /* StatecStatement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecStatement.m; path = Builder/StatecStatement.m; sourceTree = "<group>"; };
+		C9ED4A9114DACD7D0044BE00 /* StatecRunner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StatecRunner.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C9ED4A9314DACD7D0044BE00 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		C9ED4A9614DACD7D0044BE00 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		C9ED4A9714DACD7D0044BE00 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		C9ED4A9814DACD7D0044BE00 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		C9ED4A9B14DACD7D0044BE00 /* StatecRunner-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "StatecRunner-Info.plist"; sourceTree = "<group>"; };
+		C9ED4A9D14DACD7D0044BE00 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		C9ED4A9F14DACD7D0044BE00 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		C9ED4AA114DACD7D0044BE00 /* StatecRunner-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StatecRunner-Prefix.pch"; sourceTree = "<group>"; };
+		C9ED4AA314DACD7D0044BE00 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		C9ED4AA514DACD7D0044BE00 /* StatecAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StatecAppDelegate.h; sourceTree = "<group>"; };
+		C9ED4AA614DACD7D0044BE00 /* StatecAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StatecAppDelegate.m; sourceTree = "<group>"; };
+		C9ED4AA914DACD7D0044BE00 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		C9ED4ABC14DAF2620044BE00 /* NSString+StatecExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+StatecExtensions.h"; path = "Categories/NSString+StatecExtensions.h"; sourceTree = "<group>"; };
+		C9ED4ABD14DAF2620044BE00 /* NSString+StatecExtensions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+StatecExtensions.m"; path = "Categories/NSString+StatecExtensions.m"; sourceTree = "<group>"; };
+		C9ED4AC214DB14C60044BE00 /* StatecGVBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecGVBuilder.h; path = Builder/StatecGVBuilder.h; sourceTree = "<group>"; };
+		C9ED4AC314DB14C60044BE00 /* StatecGVBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecGVBuilder.m; path = Builder/StatecGVBuilder.m; sourceTree = "<group>"; };
+		C9ED4AC814DB25090044BE00 /* StatecHTMLBuilder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatecHTMLBuilder.h; path = Builder/StatecHTMLBuilder.h; sourceTree = "<group>"; };
+		C9ED4AC914DB25090044BE00 /* StatecHTMLBuilder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatecHTMLBuilder.m; path = Builder/StatecHTMLBuilder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,8 +200,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C94349881503983600705EB0 /* CoreParse.framework in Frameworks */,
 				C9A743AA14D6ECDE003E2DBA /* Foundation.framework in Frameworks */,
-				C9A743B814D6ECF2003E2DBA /* CoreParse.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9ED4A8E14DACD7D0044BE00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C94349871503983000705EB0 /* CoreParse.framework in Frameworks */,
+				C9ED4A9414DACD7D0044BE00 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -130,7 +220,9 @@
 		C9A7439A14D6ECDE003E2DBA = {
 			isa = PBXGroup;
 			children = (
+				C94349861503983000705EB0 /* CoreParse.framework */,
 				C9A743AB14D6ECDE003E2DBA /* Statec */,
+				C9ED4A9914DACD7D0044BE00 /* StatecRunner */,
 				C9A743A814D6ECDE003E2DBA /* Frameworks */,
 				C9A743A614D6ECDE003E2DBA /* Products */,
 			);
@@ -140,6 +232,7 @@
 			isa = PBXGroup;
 			children = (
 				C9A743A514D6ECDE003E2DBA /* Statec */,
+				C9ED4A9114DACD7D0044BE00 /* StatecRunner.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -147,8 +240,9 @@
 		C9A743A814D6ECDE003E2DBA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C9A743B714D6ECF2003E2DBA /* CoreParse.framework */,
 				C9A743A914D6ECDE003E2DBA /* Foundation.framework */,
+				C9ED4A9314DACD7D0044BE00 /* Cocoa.framework */,
+				C9ED4A9514DACD7D0044BE00 /* Other Frameworks */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -156,6 +250,7 @@
 		C9A743AB14D6ECDE003E2DBA /* Statec */ = {
 			isa = PBXGroup;
 			children = (
+				C9ED4ABB14DAF2470044BE00 /* Categories */,
 				C9A743F014D774E2003E2DBA /* Compiler */,
 				C9A743BC14D6ED14003E2DBA /* Builder */,
 				C9A743BB14D6ED0C003E2DBA /* Parser */,
@@ -227,6 +322,10 @@
 				C9A7440A14D82897003E2DBA /* StatecStatement.m */,
 				C98F6BCF14D844520019E817 /* StatecConditionalStatement.h */,
 				C98F6BD014D844530019E817 /* StatecConditionalStatement.m */,
+				C9ED4AC214DB14C60044BE00 /* StatecGVBuilder.h */,
+				C9ED4AC314DB14C60044BE00 /* StatecGVBuilder.m */,
+				C9ED4AC814DB25090044BE00 /* StatecHTMLBuilder.h */,
+				C9ED4AC914DB25090044BE00 /* StatecHTMLBuilder.m */,
 			);
 			name = Builder;
 			sourceTree = "<group>";
@@ -238,6 +337,48 @@
 				C9A743F214D774FC003E2DBA /* StatecCompiler.m */,
 			);
 			name = Compiler;
+			sourceTree = "<group>";
+		};
+		C9ED4A9514DACD7D0044BE00 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				C9ED4A9614DACD7D0044BE00 /* AppKit.framework */,
+				C9ED4A9714DACD7D0044BE00 /* CoreData.framework */,
+				C9ED4A9814DACD7D0044BE00 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		C9ED4A9914DACD7D0044BE00 /* StatecRunner */ = {
+			isa = PBXGroup;
+			children = (
+				C9ED4AA514DACD7D0044BE00 /* StatecAppDelegate.h */,
+				C9ED4AA614DACD7D0044BE00 /* StatecAppDelegate.m */,
+				C9ED4AA814DACD7D0044BE00 /* MainMenu.xib */,
+				C9ED4A9A14DACD7D0044BE00 /* Supporting Files */,
+			);
+			path = StatecRunner;
+			sourceTree = "<group>";
+		};
+		C9ED4A9A14DACD7D0044BE00 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				C9ED4A9B14DACD7D0044BE00 /* StatecRunner-Info.plist */,
+				C9ED4A9C14DACD7D0044BE00 /* InfoPlist.strings */,
+				C9ED4A9F14DACD7D0044BE00 /* main.m */,
+				C9ED4AA114DACD7D0044BE00 /* StatecRunner-Prefix.pch */,
+				C9ED4AA214DACD7D0044BE00 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		C9ED4ABB14DAF2470044BE00 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				C9ED4ABC14DAF2620044BE00 /* NSString+StatecExtensions.h */,
+				C9ED4ABD14DAF2620044BE00 /* NSString+StatecExtensions.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,13 +402,33 @@
 			productReference = C9A743A514D6ECDE003E2DBA /* Statec */;
 			productType = "com.apple.product-type.tool";
 		};
+		C9ED4A9014DACD7D0044BE00 /* StatecRunner */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C9ED4AAD14DACD7D0044BE00 /* Build configuration list for PBXNativeTarget "StatecRunner" */;
+			buildPhases = (
+				C9ED4A8D14DACD7D0044BE00 /* Sources */,
+				C9ED4A8E14DACD7D0044BE00 /* Frameworks */,
+				C9ED4A8F14DACD7D0044BE00 /* Resources */,
+				C9ED4AB114DACDC40044BE00 /* Copy Frameworks */,
+				C9ED4AB314DACDE60044BE00 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				C9ED4AB014DACD8C0044BE00 /* PBXTargetDependency */,
+			);
+			name = StatecRunner;
+			productName = StatecRunner;
+			productReference = C9ED4A9114DACD7D0044BE00 /* StatecRunner.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		C9A7439C14D6ECDE003E2DBA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0430;
 			};
 			buildConfigurationList = C9A7439F14D6ECDE003E2DBA /* Build configuration list for PBXProject "Statec" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -281,10 +442,24 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				C9ED4A9014DACD7D0044BE00 /* StatecRunner */,
 				C9A743A414D6ECDE003E2DBA /* Statec */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C9ED4A8F14DACD7D0044BE00 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9ED4A9E14DACD7D0044BE00 /* InfoPlist.strings in Resources */,
+				C9ED4AA414DACD7D0044BE00 /* Credits.rtf in Resources */,
+				C9ED4AAA14DACD7D0044BE00 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		C9A743A114D6ECDE003E2DBA /* Sources */ = {
@@ -314,10 +489,82 @@
 				C9A7440814D82830003E2DBA /* StatecStatementGroup.m in Sources */,
 				C9A7440B14D82897003E2DBA /* StatecStatement.m in Sources */,
 				C98F6BD114D844530019E817 /* StatecConditionalStatement.m in Sources */,
+				C9ED4ABE14DAF2620044BE00 /* NSString+StatecExtensions.m in Sources */,
+				C9ED4AC414DB14C60044BE00 /* StatecGVBuilder.m in Sources */,
+				C9ED4ACA14DB25090044BE00 /* StatecHTMLBuilder.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		C9ED4A8D14DACD7D0044BE00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				C9ED4AA014DACD7D0044BE00 /* main.m in Sources */,
+				C9ED4AA714DACD7D0044BE00 /* StatecAppDelegate.m in Sources */,
+				C93DC584150296B400007F09 /* StatecCompiler.m in Sources */,
+				C93DC5861502971200007F09 /* StatecParser.m in Sources */,
+				C93DC5871502972A00007F09 /* StatecClass.m in Sources */,
+				C93DC5881502972A00007F09 /* StatecMethod.m in Sources */,
+				C93DC5891502972A00007F09 /* StatecVariable.m in Sources */,
+				C93DC58A1502972A00007F09 /* StatecProperty.m in Sources */,
+				C93DC58B1502972A00007F09 /* StatecArgument.m in Sources */,
+				C93DC58C1502972A00007F09 /* StatecTypedef.m in Sources */,
+				C93DC58D1502972A00007F09 /* StatecEnumeration.m in Sources */,
+				C93DC58E1502972A00007F09 /* StatecType.m in Sources */,
+				C93DC58F1502972A00007F09 /* StatecCompilationUnit.m in Sources */,
+				C93DC5901502972A00007F09 /* StatecCodeStatement.m in Sources */,
+				C93DC5911502972A00007F09 /* StatecStatementGroup.m in Sources */,
+				C93DC5921502972A00007F09 /* StatecStatement.m in Sources */,
+				C93DC5931502972A00007F09 /* StatecConditionalStatement.m in Sources */,
+				C93DC5941502972A00007F09 /* StatecGVBuilder.m in Sources */,
+				C93DC5951502972A00007F09 /* StatecHTMLBuilder.m in Sources */,
+				C93DC5961502973400007F09 /* NSString+StatecExtensions.m in Sources */,
+				C93DC5971502974100007F09 /* StatecMachine.m in Sources */,
+				C93DC5981502974100007F09 /* StatecInitial.m in Sources */,
+				C93DC5991502974100007F09 /* StatecState.m in Sources */,
+				C93DC59A1502974100007F09 /* StatecEnter.m in Sources */,
+				C93DC59B1502974100007F09 /* StatecExit.m in Sources */,
+				C93DC59C1502974100007F09 /* StatecEvent.m in Sources */,
+				C93DC59D1502974100007F09 /* StatecTransition.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		C9ED4AB014DACD8C0044BE00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = C9A743A414D6ECDE003E2DBA /* Statec */;
+			targetProxy = C9ED4AAF14DACD8C0044BE00 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		C9ED4A9C14DACD7D0044BE00 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9ED4A9D14DACD7D0044BE00 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		C9ED4AA214DACD7D0044BE00 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9ED4AA314DACD7D0044BE00 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		C9ED4AA814DACD7D0044BE00 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				C9ED4AA914DACD7D0044BE00 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		C9A743B214D6ECDE003E2DBA /* Debug */ = {
@@ -393,6 +640,28 @@
 			};
 			name = Release;
 		};
+		C9ED4AAB14DACD7D0044BE00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StatecRunner/StatecRunner-Prefix.pch";
+				INFOPLIST_FILE = "StatecRunner/StatecRunner-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		C9ED4AAC14DACD7D0044BE00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "StatecRunner/StatecRunner-Prefix.pch";
+				INFOPLIST_FILE = "StatecRunner/StatecRunner-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -410,6 +679,15 @@
 			buildConfigurations = (
 				C9A743B514D6ECDE003E2DBA /* Debug */,
 				C9A743B614D6ECDE003E2DBA /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C9ED4AAD14DACD7D0044BE00 /* Build configuration list for PBXNativeTarget "StatecRunner" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C9ED4AAB14DACD7D0044BE00 /* Debug */,
+				C9ED4AAC14DACD7D0044BE00 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
