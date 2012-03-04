@@ -8,16 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+@class StatecParser;
 @class StatecMachine;
 @class StatecCompilationUnit;
 
 @interface StatecCompiler : NSObject {
 }
 
+@property (strong) StatecParser *parser;
 @property (strong) StatecMachine *machine;
 @property (strong) StatecCompilationUnit *generatedUnit;
 
-- (id)initWithSource:(NSString *)source;
+//- (id)initWithSource:(NSString *)source;
+
+- (BOOL)parse:(NSString *)source;
 
 - (BOOL)isMachineValid:(NSArray **)issues;
 

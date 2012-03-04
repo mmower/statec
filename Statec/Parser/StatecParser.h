@@ -10,12 +10,24 @@
 
 #import <CoreParse/CoreParse.h>
 
-@interface StatecParser : NSObject <CPTokeniserDelegate>
+@class StatecParser;
+
+@protocol StatecParserDelegate <NSObject>
+
+- (void)parser:(StatecParser *)parser syntaxError:(NSString *)message token:(CPToken *)token expected:(NSSet *)expected;
+- (void)parser:(StatecParser *)parser unexpectedToken:(CPToken *)token expected:(NSSet *)expected;
+
+@end
+
+
+@interface StatecParser : NSObject <CPTokeniserDelegate,CPParserDelegate>
 
 - (CPTokeniser *)tokenizer;
 - (CPGrammar *)grammar;
 - (CPParser *)parser;
 - (CPTokenStream *)tokenStream:(NSString *)source;
 - (id<NSObject>)parse:(NSString *)source;
+
+@property id<StatecParserDelegate> delegate;
 
 @end

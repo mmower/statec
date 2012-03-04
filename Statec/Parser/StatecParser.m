@@ -12,6 +12,8 @@
 
 @implementation StatecParser
 
+@synthesize delegate = _delegate;
+
 
 - (CPTokeniser *)tokenizer {
   CPTokeniser *tokenizer = [[CPTokeniser alloc] init];
@@ -69,17 +71,43 @@
 }
 
 
+- (NSUInteger)tokeniser:(CPTokeniser *)tokeniser didNotFindTokenOnInput:(NSString *)input position:(NSUInteger)position error:(NSString **)errorMessage {
+  *errorMessage = [NSString stringWithFormat:@"unexpected character '%c' in input", [input characterAtIndex:0]];
+  return NSNotFound;
+}
+
+
 - (CPTokenStream *)tokenStream:(NSString *)source {
   return [[self tokenizer] tokenise:source];
 }
 
 
-- (id<NSObject>)parse:(NSString *)source {
+- (CPRecoveryAction *)parser:(CPParser *)parser didEncounterErrorOnInput:(CPTokenStream *)inputStream expecting:(NSSet *)acceptableTokens {
+  CPToken *errorToken = [inputStream peekToken];
   
+  if( [errorToken isKindOfClass:[CPErrorToken class]] ) {
+    [[self delegate] parser:self syntaxError:[(CPErrorToken*)errorToken errorMessage] token:errorToken expected:acceptableTokens];
+//    NSLog( @"Unexpected token at line:%ld col:%ld", [errorToken lineNumber], [errorToken columnNumber] );
+//    NSLog( @"Error:%@", [(CPErrorToken*)errorToken errorMessage] );
+  } else {
+    [[self delegate] parser:self unexpectedToken:errorToken expected:acceptableTokens];
+    NSLog( @"Unexpected %@ token at line:%ld col:%ld", [errorToken name], [errorToken lineNumber], [errorToken columnNumber] );
+//    NSLog( @"Expecting one of: %@", [tokenNames componentsJoinedByString:@","] );
+  }
+  return [CPRecoveryAction recoveryActionStop];  
+}
+
+
+
+- (id<NSObject>)parse:(NSString *)source {
+  NSLog( @"calling parse" );
   CPParser *parser = [self parser];
+  [parser setDelegate:self];
+  
   CPTokenStream *tokens = [self tokenStream:source];
   
-  return [parser parse:tokens];
+  id<NSObject> result = [parser parse:tokens];
+  return result;
 }
 
 

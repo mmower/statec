@@ -14,20 +14,28 @@
 
 @implementation StatecCompiler
 
+@synthesize parser = _parser;
 @synthesize machine = _machine;
 @synthesize generatedUnit = _generatedUnit;
 
 
-- (id)initWithSource:(NSString *)source {
+- (id)init {
   self = [super init];
   if( self ) {
-    StatecParser *parser = [[StatecParser alloc] init];
-    _machine = (StatecMachine *)[parser parse:source];
-    if( !_machine ) {
-      return nil;
-    }
+    _parser = [[StatecParser alloc] init];
   }
   return self;
+}
+
+
+- (BOOL)parse:(NSString *)source {
+  StatecMachine *machine = (StatecMachine *)[[self parser] parse:source];
+  if( machine ) {
+    [self setMachine:machine];
+    return YES;
+  } else {
+    return NO;
+  }
 }
 
 
@@ -152,7 +160,7 @@
   for( StatecEvent *event in [state events] ) {
     StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:[event internalCallbackMethodName]];
     [eventMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
-    [[eventMethod body] append:@" NSLog( @\"Respond to event: %@\" ); \n ", [event name]];
+    [[eventMethod body] append:@"[machine log:@\"Received event: %@\"];\n", [event name]];
     if( [state wantsExit] ) {
       [[eventMethod body] append:@"[machine %@];\n", [state exitStateMethodName]];
     }
@@ -196,6 +204,22 @@
    [stateVariable name]
    ];
   [machineClass addMethod:getStateMethod];
+  
+  StatecMethod *illegalTransitionMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(illegalTransition:from:)];
+  [illegalTransitionMethod addArgument:[[StatecArgument alloc] initWithType:@"NSString*" name:@"event"]];
+  [illegalTransitionMethod addArgument:[[StatecArgument alloc] initWithType:[stateBaseClass pointerType] name:@"from"]];
+  [[illegalTransitionMethod body] append:
+   @"// Subclass can override to customise illegal transition handling\n"
+   @"[self log:[NSString stringWithFormat:@\"Received event %%@ which is not legal in state %%@\", event, [from name]]];\n"
+   ];
+  [machineClass addMethod:illegalTransitionMethod];
+  
+  StatecMethod *logMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selector:@selector(log:)];
+  [logMethod addArgument:[[StatecArgument alloc] initWithType:@"NSString*" name:@"message"]];
+  [[logMethod body] append:
+   @"// Subclass can override to do the actual logging\n"
+   ];
+  [machineClass addMethod:logMethod];
   
   // Add to the machine class an instance variable represent a queue we will use to
   // serialize state changes
@@ -286,7 +310,7 @@
     StatecMethod *eventMethod = [[StatecMethod alloc] initWithScope:StatecInstanceScope returnType:@"void" selectorFormat:[event internalCallbackMethodName]];
     [eventMethod addArgument:[[StatecArgument alloc] initWithType:[machineClass pointerType] name:@"machine"]];
     [[eventMethod body] append:
-     @"[NSException raise:@\"StateMachineException\" format:@\"Event '%@' is not legal in state '%%@'!\",[self name]];",
+     @"[machine illegalTransition:@\"%@\" from:self];\n",
      [event name]
      ];
     [methods addObject:eventMethod];
